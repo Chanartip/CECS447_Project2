@@ -21,12 +21,12 @@
  http://users.ece.utexas.edu/~valvano/
  */
  
-#include "PLL.h"
+#include "../lib/PLL.h"
 
 // The #define statement SYSDIV2 in PLL.h
 // initializes the PLL to the desired frequency.
 
-// bus frequency is 400MHz/(SYSDIV2+1) = 400MHz/(7+1) = 50 MHz
+// bus frequency is 400MHz/(SYSDIV2+1) = 400MHz/(4+1) = 80 MHz
 // see the table at the end of this file
 
 #define SYSCTL_RIS_R            (*((volatile unsigned long *)0x400FE050))

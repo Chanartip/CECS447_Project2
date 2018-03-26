@@ -23,9 +23,9 @@
 // U0Rx (VCP receive) connected to PA0
 // U0Tx (VCP transmit) connected to PA1
 
-#include "PLL.h"
 #include "UART.h"
-#include "tm4c123gh6pm.h"
+#include "../lib/PLL.h"
+#include "../lib/tm4c123gh6pm.h"
 
 #define LED (*((volatile unsigned long *)0x40025038))		// PF3-1
 	

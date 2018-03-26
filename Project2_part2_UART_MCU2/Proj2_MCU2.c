@@ -20,8 +20,8 @@ Revision 1.1: Date: 3/21/2018
 // U1Tx (VCP transmit) connected to PB1
 
 #include "UART.h"
-#include "PLL.h"
-#include "tm4c123gh6pm.h"
+#include "../lib/PLL.h"
+#include "../lib/tm4c123gh6pm.h"
 
 //---------------------OutCRLF---------------------------------------------------
 // Output a CR,LF to UART to go to a new line
