@@ -135,6 +135,7 @@ int main(void){
 	while(1){
 		PE3_ADC0_IN_DATA = ADC0_InSeq3(); // Getting Input from Sequencer3
 		UART1_OutUDec(PE3_ADC0_IN_DATA);
+		UART1_OutChar(CR);
 		delay();
 	} // end superloop
 

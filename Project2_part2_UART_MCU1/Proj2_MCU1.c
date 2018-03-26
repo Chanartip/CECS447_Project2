@@ -26,8 +26,6 @@
 #include "UART.h"
 #include "../lib/PLL.h"
 #include "../lib/tm4c123gh6pm.h"
-
-#define LED (*((volatile unsigned long *)0x40025038))		// PF3-1
 	
 //---------------------OutCRLF---------------------
 // Output a CR,LF to UART to go to a new line
@@ -54,7 +52,7 @@ void delay(void) {
 
 
 int main(void){
-	unsigned char UART0_in_char;
+	unsigned long UART1_in;
 	
 	PLL_Init();
 	UART0_Init();											// Initialize UART0
@@ -62,8 +60,10 @@ int main(void){
 	
 	while(1){
 		
-		UART0_in_char = UART0_NonBlockingInChar(); // get a character Input from UART0
-	
+		UART1_in = UART1_InUDec(); 			// get a character Input from UART1	  
+		UART0_OutUDec(UART1_in);				// Serially output to Terminal by UART0
+		OutCRLF();
+		delay();
 	} // end superloop
 
 }

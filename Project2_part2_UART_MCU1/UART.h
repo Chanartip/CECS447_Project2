@@ -92,14 +92,14 @@ void UART1_OutUDec(unsigned long n);
 //     value range is 0 to FFFFFFFF
 // If you enter a number above FFFFFFFF, it will return an incorrect value
 // Backspace will remove last digit typed
-//unsigned long UART_InUHex(void);
+//unsigned long UART1_InUHex(void);
 
 //--------------------------UART_OutUHex----------------------------
 // Output a 32-bit number in unsigned hexadecimal format
 // Input: 32-bit number to be transferred
 // Output: none
 // Variable format 1 to 8 digits with no space before or after
-//void UART_OutUHex(unsigned long number);
+//void UART0_OutUHex(unsigned long number);
 
 //------------UART_InString------------
 // Accepts ASCII characters from the serial port

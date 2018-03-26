@@ -27,33 +27,32 @@
 // U0Tx (VCP transmit) connected to PA1
 
 #include "UART.h"
-#include "tm4c123gh6pm.h"
+#include "../lib/tm4c123gh6pm.h"
 
 
 //------------UART0_Init------------
-// Initialize the UART for 115,200 baud rate (assuming 50 MHz UART clock),
+// Initialize the UART for 19200 baud rate (assuming 50 MHz UART clock),
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
 /*
 	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
-	     = 80,000,000 / (16 * 9600)
-		   = (520).83333333
-		   = 520
+	     = 80,000,000 / (16 * 19200)
+		   = (260).4167
+		   = 260
 		 
 	FBRD = BRDF*64 + 0.05
-	     = 0.83333333 *64 +0.05
-		   = (53).383312
-		   = 53
+	     = 0.4167 *64 +0.05
+		   = (26).7188
+		   = 26
 */
 // Input: none
 // Output: none
-void UART_Init(void){
+void UART0_Init(void){
   SYSCTL_RCGC1_R |= SYSCTL_RCGC1_UART0; // activate UART0
   SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // activate port A
   UART0_CTL_R &= ~UART_CTL_UARTEN;      // disable UART
-  UART0_IBRD_R = 520;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
-  UART0_FBRD_R = 53;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
-                                        // 8 bit word length (no parity bits, one stop bit, FIFOs)
-  UART0_LCRH_R = (UART_LCRH_WLEN_8|UART_LCRH_FEN);
+  UART0_IBRD_R = 260;                   // IBRD 
+  UART0_FBRD_R = 26;                    // FBRD 
+  UART0_LCRH_R = 0x70;								  // 8 bit word length (no parity bits, one stop bit, FIFOs)
   UART0_CTL_R |= UART_CTL_UARTEN;       // enable UART
   GPIO_PORTA_AFSEL_R |= 0x03;           // enable alt funct on PA1-0
   GPIO_PORTA_DEN_R   |= 0x03;           // enable digital I/O on PA1-0
@@ -245,20 +244,20 @@ void UART1_OutUDec(unsigned long n){
   UART1_OutChar(n+'0'); /* n is between 0 and 9 */
 }
 
-////---------------------UART_InUHex----------------------------------------
-//// Accepts ASCII input in unsigned hexadecimal (base 16) format
-//// Input: none
-//// Output: 32-bit unsigned number
-//// No '$' or '0x' need be entered, just the 1 to 8 hex digits
-//// It will convert lower case a-f to uppercase A-F
-////     and converts to a 16 bit unsigned number
-////     value range is 0 to FFFFFFFF
-//// If you enter a number above FFFFFFFF, it will return an incorrect value
-//// Backspace will remove last digit typed
-//unsigned long UART_InUHex(void){
+//---------------------UART_InUHex----------------------------------------
+// Accepts ASCII input in unsigned hexadecimal (base 16) format
+// Input: none
+// Output: 32-bit unsigned number
+// No '$' or '0x' need be entered, just the 1 to 8 hex digits
+// It will convert lower case a-f to uppercase A-F
+//     and converts to a 16 bit unsigned number
+//     value range is 0 to FFFFFFFF
+// If you enter a number above FFFFFFFF, it will return an incorrect value
+// Backspace will remove last digit typed
+//unsigned long UART1_InUHex(void){
 //unsigned long number=0, digit, length=0;
 //char character;
-//  character = UART_InChar();
+//  character = UART1_InChar();
 //  while(character != CR){
 //    digit = 0x10; // assume bad
 //    if((character>='0') && (character<='9')){
@@ -274,37 +273,37 @@ void UART1_OutUDec(unsigned long n){
 //    if(digit <= 0xF){
 //      number = number*0x10+digit;
 //      length++;
-//      UART_OutChar(character);
+//      UART1_OutChar(character);
 //    }
 //// Backspace outputted and return value changed if a backspace is inputted
 //    else if((character==BS) && length){
 //      number /= 0x10;
 //      length--;
-//      UART_OutChar(character);
+//      UART1_OutChar(character);
 //    }
-//    character = UART_InChar();
+//    character = UART1_InChar();
 //  }
 //  return number;
 //}
 
-////--------------------------UART_OutUHex----------------------------
-//// Output a 32-bit number in unsigned hexadecimal format
-//// Input: 32-bit number to be transferred
-//// Output: none
-//// Variable format 1 to 8 digits with no space before or after
-//void UART_OutUHex(unsigned long number){
+//--------------------------UART0_OutUHex----------------------------
+// Output a 32-bit number in unsigned hexadecimal format
+// Input: 32-bit number to be transferred
+// Output: none
+// Variable format 1 to 8 digits with no space before or after
+//void UART0_OutUHex(unsigned long number){
 //// This function uses recursion to convert the number of
 ////   unspecified length as an ASCII string
 //  if(number >= 0x10){
-//    UART_OutUHex(number/0x10);
-//    UART_OutUHex(number%0x10);
+//    UART0_OutUHex(number/0x10);
+//    UART0_OutUHex(number%0x10);
 //  }
 //  else{
 //    if(number < 0xA){
-//      UART_OutChar(number+'0');
+//      UART0_OutChar(number+'0');
 //     }
 //    else{
-//      UART_OutChar((number-0x0A)+'A');
+//      UART0_OutChar((number-0x0A)+'A');
 //    }
 //  }
 //}

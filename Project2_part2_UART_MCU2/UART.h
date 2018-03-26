@@ -93,7 +93,7 @@ void UART1_OutUDec(unsigned long n);
 // Input: 32-bit number to be transferred
 // Output: none
 // Variable format 1 to 8 digits with no space before or after
-//void UART_OutUHex(unsigned long number);
+//void UART1_OutUHex(unsigned long number);
 
 //------------UART_InString------------
 // Accepts ASCII characters from the serial port
