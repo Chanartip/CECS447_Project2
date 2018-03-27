@@ -31,7 +31,7 @@
 
 
 //------------UART0_Init------------
-// Initialize the UART for 19200 baud rate (assuming 50 MHz UART clock),
+// Initialize the UART for 19200 baud rate (assuming 80 MHz UART clock),
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
 /*
 	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
@@ -201,7 +201,7 @@ char character;
     if((character>='0') && (character<='9')) {
       number = 10*number+(character-'0');   // this line overflows if above 4294967295
       length++;
-      UART1_OutChar(character);
+//      UART1_OutChar(character);
     }
 // If the input is a backspace, then the return number is
 // changed and a backspace is outputted to the screen

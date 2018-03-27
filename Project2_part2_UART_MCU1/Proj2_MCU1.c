@@ -44,8 +44,9 @@ void OutCRLF(void){
 // Output: none
 //-------------------------------------------------------------------------------
 void delay(void) {
-	int i;
-	for(i = 0; i < 100000; i++);
+	unsigned long i;
+	//for(i = 0; i < 100000; i++);
+	for(i=0; i<1336000; i++); // 16.7ms delay (60Hz)
 }
 
 
@@ -59,11 +60,10 @@ int main(void){
 	UART1_Init();									    // Initialize UART1
 	
 	while(1){
-		
-		UART1_in = UART1_InUDec(); 			// get a character Input from UART1	  
+		delay();
+		UART1_in = UART1_InUDec(); 			// get a character Input from UART1
 		UART0_OutUDec(UART1_in);				// Serially output to Terminal by UART0
 		OutCRLF();
-		delay();
 	} // end superloop
 
 }
