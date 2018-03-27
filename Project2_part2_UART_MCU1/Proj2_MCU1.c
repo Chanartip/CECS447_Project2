@@ -87,18 +87,19 @@ void PWM_PF2_Duty(unsigned int duty){
 int main(void){
 	unsigned long UART1_in;
 	unsigned int LED_Percentage;
-	unsigned int i;
 	
 	PLL_Init();
 	UART0_Init();											// Initialize UART0
 	UART1_Init();									    // Initialize UART1
-	M1_PWM6_PF2_Init(666666, 666666);	// Initialize blue LED PWM on TM4C123
+	M1_PWM6_PF2_Init(666666, 500000);	// Initialize blue LED PWM on TM4C123
 	
 	while(1){
 		delay();
 		UART1_in = UART1_InUDec(); 			// get a character Input from UART1
+		
 		LED_Percentage = UART1_in*100/4096;
-		PWM_PF2_Duty(LED_Percentage);
+		PWM_PF2_Duty(LED_Percentage*666666);
+		
 		UART0_OutUDec(LED_Percentage);	// Serially output to Terminal by UART0
 		OutCRLF();
 	} // end superloop

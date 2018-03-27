@@ -511,9 +511,9 @@ Image Symbol Table
     UART1_Init                               0x00000665   Thumb Code   140  uart.o(i.UART1_Init)
     UART1_OutChar                            0x00000709   Thumb Code    18  uart.o(i.UART1_OutChar)
     delay                                    0x00000721   Thumb Code    14  proj2_mcu1.o(i.delay)
-    main                                     0x00000735   Thumb Code    56  proj2_mcu1.o(i.main)
-    Region$$Table$$Base                      0x00000770   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00000780   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x00000735   Thumb Code    60  proj2_mcu1.o(i.main)
+    Region$$Table$$Base                      0x00000778   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000788   Number         0  anon$$obj.o(Region$$Table)
     __libspace_start                         0x20000000   Data          96  libspace.o(.bss)
     __temporary_stack_top$libspace           0x20000060   Data           0  libspace.o(.bss)
 
@@ -525,9 +525,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000780, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000788, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000780, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000788, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -598,8 +598,8 @@ Memory Map of the image
     0x00000664   0x000000a4   Code   RO           38    i.UART1_Init        uart.o
     0x00000708   0x00000018   Code   RO           40    i.UART1_OutChar     uart.o
     0x00000720   0x00000014   Code   RO          139    i.delay             proj2_mcu1.o
-    0x00000734   0x0000003c   Code   RO          140    i.main              proj2_mcu1.o
-    0x00000770   0x00000010   Data   RO          328    Region$$Table       anon$$obj.o
+    0x00000734   0x00000044   Code   RO          140    i.main              proj2_mcu1.o
+    0x00000778   0x00000010   Data   RO          328    Region$$Table       anon$$obj.o
 
 
     Execution Region ER_RW (Base: 0x20000000, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
@@ -624,12 +624,12 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
        124          6          0          0          0       1871   pll.o
-       340         48          0          0          0       2511   proj2_mcu1.o
+       348         52          0          0          0       2507   proj2_mcu1.o
        692        632          0          0       1024        996   startup.o
        500         66          0          0          0       3296   uart.o
 
     ----------------------------------------------------------------------
-      1660        752         16          0       1024       8674   Object Totals
+      1668        756         16          0       1024       8670   Object Totals
          0          0         16          0          0          0   (incl. Generated)
          4          0          0          0          0          0   (incl. Padding)
 
@@ -677,15 +677,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      1904        768         16          0       1120       8418   Grand Totals
-      1904        768         16          0       1120       8418   ELF Image Totals
-      1904        768         16          0          0          0   ROM Totals
+      1912        772         16          0       1120       8414   Grand Totals
+      1912        772         16          0       1120       8414   ELF Image Totals
+      1912        772         16          0          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 1920 (   1.88kB)
+    Total RO  Size (Code + RO Data)                 1928 (   1.88kB)
     Total RW  Size (RW Data + ZI Data)              1120 (   1.09kB)
-    Total ROM Size (Code + RO Data + RW Data)       1920 (   1.88kB)
+    Total ROM Size (Code + RO Data + RW Data)       1928 (   1.88kB)
 
 ==============================================================================
 
