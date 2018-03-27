@@ -115,8 +115,12 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)(9108=-1,-1,-1,-1,0)(9106=-1,-1,-1,-1,0)(9104=-1,-1,-1,-1,0)(9107=-1,-1,-1,-1,0)(9102=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -143,51 +147,46 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>193</LineNumber>
+          <LineNumber>139</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1678</Address>
+          <Address>1626</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Chana\OneDrive\2018Spring_CSULB\CECS447_Microcontroller\Project2_part2_UART_MCU1\UARTTestMain.c</Filename>
+          <Filename>.\Proj2_MCU2.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>187</LineNumber>
+          <LineNumber>85</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1650</Address>
+          <Address>1524</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Chana\OneDrive\2018Spring_CSULB\CECS447_Microcontroller\Project2_part2_UART_MCU1\UARTTestMain.c</Filename>
+          <Filename>.\UART.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\UART\UART.c\85</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sw0_flag</ItemText>
+          <ItemText>PE3_ADC0_IN_DATA</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sw1_flag</ItemText>
-        </Ww>
-        <Ww>
-          <count>2</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>UART0_in_char</ItemText>
+          <ItemText>data</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -223,7 +222,7 @@
       <LintConfigFile></LintConfigFile>
       <SystemViewers>
         <Entry>
-          <Name>System Viewer\GPIOF</Name>
+          <Name>System Viewer\GPIOE</Name>
           <WinId>35905</WinId>
         </Entry>
       </SystemViewers>
@@ -241,10 +240,10 @@
       <FileNumber>1</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>388</TopLine>
+      <TopLine>274</TopLine>
       <CurrentLine>277</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\startup.s</PathWithFileName>
@@ -256,15 +255,15 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
-      <Focus>1</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>14</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>71</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>125</TopLine>
+      <CurrentLine>64</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\PLL.c</PathWithFileName>
-      <FilenameWithoutPath>PLL.c</FilenameWithoutPath>
+      <PathWithFileName>.\Proj2_MCU2.c</PathWithFileName>
+      <FilenameWithoutPath>Proj2_MCU2.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -273,11 +272,11 @@
       <FileNumber>3</FileNumber>
       <FileType>1</FileType>
       <tvExp>1</tvExp>
-      <Focus>1</Focus>
-      <ColumnNumber>42</ColumnNumber>
+      <Focus>0</Focus>
+      <ColumnNumber>35</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>29</TopLine>
-      <CurrentLine>37</CurrentLine>
+      <TopLine>121</TopLine>
+      <CurrentLine>43</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\UART.c</PathWithFileName>
       <FilenameWithoutPath>UART.c</FilenameWithoutPath>
@@ -288,15 +287,15 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>78</ColumnNumber>
+      <ColumnNumber>76</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>75</TopLine>
-      <CurrentLine>103</CurrentLine>
+      <TopLine>16</TopLine>
+      <CurrentLine>33</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Proj2_MCU1.c</PathWithFileName>
-      <FilenameWithoutPath>Proj2_MCU1.c</FilenameWithoutPath>
+      <PathWithFileName>.\PLL.c</PathWithFileName>
+      <FilenameWithoutPath>PLL.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

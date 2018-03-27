@@ -42,8 +42,8 @@ void OutCRLF(void){
 // Output: none
 //-------------------------------------------------------------------------------
 void delay(void) {
-	int i;
-	for(i = 0; i < 100000; i++);
+	unsigned long i;
+	for(i = 0; i < 833333; i++);
 }
 
 //---------------------PortB_UART1_Init------------------------------------------
@@ -51,14 +51,14 @@ void delay(void) {
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
 /*
 	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
-	     = 80,000,000 / (16 * 9600)
-		   = (520).83333333
-		   = 520
+	     = 50,000,000 / (16 * 9600)
+		   = (325).5208
+		   = 325
 		 
 	FBRD = BRDF*64 + 0.05
-	     = 0.83333333 *64 +0.05
-		   = (53).383312
-		   = 53
+	     = 0.5208 *64 +0.05
+		   = (33).3812
+		   = 33
 */
 // Input: none
 // Output: none
@@ -69,8 +69,8 @@ void PortB_UART1_Init(void)
   SYSCTL_RCGCGPIO_R  |=  0x02;       // activate port B
   while((SYSCTL_PRGPIO_R&0x02) == 0){};	
   UART1_CTL_R        &= ~0x01;       // disable UART
-  UART1_IBRD_R        =  520;        // IBRD, 80Mhz clk, 9600 baud
-  UART1_FBRD_R        =  53;         // FBRD
+  UART1_IBRD_R        =  325;        // IBRD, 80Mhz clk, 9600 baud
+  UART1_FBRD_R        =  33;         // FBRD
   UART1_LCRH_R        =  0x70;       // 8 bit(no parity, one stop, FIFOs)
   UART1_CTL_R        |=  0x01;       // enable UART
   GPIO_PORTB_AFSEL_R |=  0x03;       // enable alt funct on PB0, PB1
@@ -135,6 +135,7 @@ int main(void){
 	while(1){
 		PE3_ADC0_IN_DATA = ADC0_InSeq3(); // Getting Input from Sequencer3
 		UART1_OutUDec(PE3_ADC0_IN_DATA);
+		UART1_OutChar(CR);
 		delay();
 	} // end superloop
 

@@ -31,27 +31,27 @@
 
 
 //------------UART0_Init------------
-// Initialize the UART for 115,200 baud rate (assuming 50 MHz UART clock),
+// Initialize the UART for 9600 baud rate (assuming 50 MHz UART clock),
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
 /*
 	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
-	     = 80,000,000 / (16 * 9600)
-		   = (520).83333333
-		   = 520
+	     = 50,000,000 / (16 * 9600)
+		   = (325).5208
+		   = 325
 		 
 	FBRD = BRDF*64 + 0.05
-	     = 0.83333333 *64 +0.05
-		   = (53).383312
-		   = 53
+	     = 0.5208 *64 +0.05
+		   = (33).3812
+		   = 33
 */
 // Input: none
 // Output: none
-void UART_Init(void){
+void UART0_Init(void){
   SYSCTL_RCGC1_R |= SYSCTL_RCGC1_UART0; // activate UART0
   SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // activate port A
   UART0_CTL_R &= ~UART_CTL_UARTEN;      // disable UART
-  UART0_IBRD_R = 520;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
-  UART0_FBRD_R = 53;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
+  UART0_IBRD_R = 325;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
+  UART0_FBRD_R = 33;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
                                         // 8 bit word length (no parity bits, one stop bit, FIFOs)
   UART0_LCRH_R = (UART_LCRH_WLEN_8|UART_LCRH_FEN);
   UART0_CTL_R |= UART_CTL_UARTEN;       // enable UART
@@ -62,18 +62,18 @@ void UART_Init(void){
   GPIO_PORTA_AMSEL_R &= ~0x03;          // disable analog functionality on PA
 }
 //---------------------UART1_Init------------------------------------------
-// Initialize the UART for 9600 baud rate (assuming 80 MHz UART clock),
+// Initialize the UART for 9600 baud rate (assuming 50 MHz UART clock),
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
 /*
 	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
-	     = 80,000,000 / (16 * 9600)
-		   = (520).83333333
-		   = 520
+	     = 50,000,000 / (16 * 9600)
+		   = (325).5208
+		   = 325
 		 
 	FBRD = BRDF*64 + 0.05
-	     = 0.83333333 *64 +0.05
-		   = (53).383312
-		   = 53
+	     = 0.5208 *64 +0.05
+		   = (33).3812
+		   = 33
 */
 // Input: none
 // Output: none
@@ -84,8 +84,8 @@ void UART1_Init(void)
   SYSCTL_RCGC2_R     |= SYSCTL_RCGC2_GPIOB;   // activate port B
   while((SYSCTL_RCGC2_R&0x02) == 0){};	
   UART1_CTL_R        &= ~0x01;       // disable UART
-  UART1_IBRD_R        =  520;        // IBRD, 80Mhz clk, 9600 baud
-  UART1_FBRD_R        =  53;         // FBRD
+  UART1_IBRD_R        =  325;        // IBRD, 80Mhz clk, 9600 baud
+  UART1_FBRD_R        =  33;         // FBRD
   UART1_LCRH_R        =  0x70;       // 8 bit(no parity, one stop, FIFOs)
   UART1_CTL_R        |=  0x01;       // enable UART
   GPIO_PORTB_AFSEL_R |=  0x03;       // enable alt funct on PB0, PB1
@@ -202,7 +202,7 @@ char character;
     if((character>='0') && (character<='9')) {
       number = 10*number+(character-'0');   // this line overflows if above 4294967295
       length++;
-      UART1_OutChar(character);
+//      UART1_OutChar(character);
     }
 // If the input is a backspace, then the return number is
 // changed and a backspace is outputted to the screen
