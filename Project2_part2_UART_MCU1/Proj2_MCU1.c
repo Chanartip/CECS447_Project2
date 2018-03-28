@@ -87,6 +87,10 @@ void PWM_PF2_Duty(unsigned int duty){
 int main(void){
 	unsigned int UART1_in_num;
 	unsigned long LED_Percentage;
+	unsigned char UART0_in_char;
+	unsigned char UART1_in_char;
+	unsigned short buffer_max =32;
+	char buffer;
 	
 	PLL_Init();												// Initialize 50MHz PLL
 	UART0_Init();											// Initialize UART0
@@ -100,6 +104,24 @@ int main(void){
 		UART0_OutUDec(LED_Percentage);							// Display the percentage (don't need by the prompt but for showing that this is worked so far.)
 		OutCRLF();																	// Get a new line each time of display
 		PWM_PF2_Duty((LED_Percentage*50000/100)-1);	// Change the duty of LED.
+		
+		// 2.a) receives 'r' from serial terminal, then sends 'r' to MCU2,
+		//			and then waits for MCU2 confirmation message.
+		//			Once got InString will receive a char at the time and display to the terminal
+		//			(check UART.C for more code.)
+		UART0_in_char = UART0_NonBlockingInChar();
+		if(UART0_in_char == 0x72){					
+			UART1_OutChar(UART0_in_char);
+			UART1_InString(&buffer, buffer_max);
+		}
+		
+		// 2.c) checks a token (0x73 's') from pressing SW0 on MCU2,
+		//			then passing message from MCU2 to the Terminal
+		UART1_in_char = UART1_NonBlockingInChar();
+		if(UART1_in_char == 0x73){
+			UART1_InString(&buffer, buffer_max);
+		}
+		
 		delay();																		// Create 16.67ms (60Hz) delay
 	} // end superloop
 

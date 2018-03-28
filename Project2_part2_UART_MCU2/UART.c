@@ -67,14 +67,14 @@ Updated:  Edit UART_Init to initialize UART_1 instead of UART_0
 //  GPIO_PORTA_AMSEL_R &= ~0x03;          // disable analog functionality on PA
 //}
 
-////------------UART_InChar------------
-//// Wait for new serial port input
-//// Input: none
-//// Output: ASCII code for key typed
-//unsigned char UART_InChar(void){
-//  while((UART0_FR_R&UART_FR_RXFE) != 0);
-//  return((unsigned char)(UART0_DR_R&0xFF));
-//}
+//------------UART_InChar------------
+// Wait for new serial port input
+// Input: none
+// Output: ASCII code for key typed
+unsigned char UART1_InChar(void){
+  while((UART1_FR_R&UART_FR_RXFE) != 0);
+  return((unsigned char)(UART1_DR_R&0xFF));
+}
 
 //------------UART1_OutChar------------
 // Output 8-bit to serial port
@@ -86,16 +86,16 @@ void UART1_OutChar(unsigned char data){
 }
 
 
-////------------UART_OutString------------
-//// Output String (NULL termination)
-//// Input: pointer to a NULL-terminated string to be transferred
-//// Output: none
-//void UART_OutString(char *pt){
-//  while(*pt){
-//    UART_OutChar(*pt);
-//    pt++;
-//  }
-//}
+//------------UART_OutString------------
+// Output String (NULL termination)
+// Input: pointer to a NULL-terminated string to be transferred
+// Output: none
+void UART1_OutString(char *pt){
+  while(*pt){
+    UART1_OutChar(*pt);
+    pt++;
+  }
+}
 
 ////------------UART_InUDec------------
 //// InUDec accepts ASCII input in unsigned decimal format

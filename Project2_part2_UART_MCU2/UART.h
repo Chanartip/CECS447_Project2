@@ -45,7 +45,7 @@
 // Wait for new serial port input
 // Input: none
 // Output: ASCII code for key typed
-//unsigned char UART_InChar(void);
+unsigned char UART1_InChar(void);
 
 //------------UART_OutChar------------
 // Output 8-bit to serial port
@@ -57,7 +57,7 @@ void UART1_OutChar(unsigned char data);
 // Output String (NULL termination)
 // Input: pointer to a NULL-terminated string to be transferred
 // Output: none
-//void UART_OutString(char *pt);
+void UART1_OutString(char *pt);
 
 //------------UART_InUDec------------
 // InUDec accepts ASCII input in unsigned decimal format

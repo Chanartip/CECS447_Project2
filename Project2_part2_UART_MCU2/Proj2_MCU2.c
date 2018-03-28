@@ -122,6 +122,8 @@ unsigned long ADC0_InSeq3(void){
 //---------------------main---------------------
 int main(void){
 	unsigned long PE3_ADC0_IN_DATA;
+	unsigned char UART1_in_char;
+	
 	PLL_Init();
 	PortB_UART1_Init();									// Initialize UART1
 	PortE_AIN0_Init();
@@ -136,6 +138,20 @@ int main(void){
 		PE3_ADC0_IN_DATA = ADC0_InSeq3(); // Getting Input from Sequencer3
 		UART1_OutUDec(PE3_ADC0_IN_DATA);
 		UART1_OutChar(CR);
+		
+		UART1_in_char = UART1_InChar();
+		if(UART1_in_char == 0x73){
+			//toggle Red LED Blinking using SYSTICK_interrupt
+			UART1_OutString("Red LED is blinking.");
+		}
+		
+		if(LED_blink == OFF){
+			// set PORTF_init for button0 and pullup resistor.
+			// set Interrupt for SW0
+			// set Systick to blink LED
+			UART1_OutString("Red LED is Off.");
+		}
+		
 		delay();
 	} // end superloop
 
