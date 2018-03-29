@@ -356,7 +356,7 @@ char character;
 // Input: pointer to empty buffer, size of buffer
 // Output: Null terminated string
 // -- Modified by Agustinus Darmawan + Mingjie Qiu --
-void UART1_InString(char *bufPt, unsigned short max) {
+void UART_InString(char *bufPt, unsigned short max) {
 int length=0;
 char character;
   character = UART1_InChar();
@@ -365,14 +365,14 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART0_OutChar(BS);
+        UART1_OutChar(BS);
       }
     }
     else if(length < max){
       *bufPt = character;
       bufPt++;
       length++;
-      UART0_OutChar(character);
+      UART1_OutChar(character);
     }
     character = UART1_InChar();
   }
