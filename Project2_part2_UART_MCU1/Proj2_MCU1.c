@@ -23,20 +23,13 @@
 // U0Rx (VCP receive) connected to PA0
 // U0Tx (VCP transmit) connected to PA1
 
-#include "PLL.h"
-#include "UART.h"
-#include "tm4c123gh6pm.h"
+#include "../lib/PLL.h"
+#include "../lib/UART.h"
+#include "../lib/tm4c123gh6pm.h"
 
 #define LED (*((volatile unsigned long *)0x40025038))		// PF3-1
 	
-//---------------------OutCRLF---------------------
-// Output a CR,LF to UART to go to a new line
-// Input: none
-// Output: none
-void OutCRLF(void){
-  UART0_OutChar(CR);
-  UART0_OutChar(LF);
-}
+
 //---------------------delay-----------------------------------------------------
 // Crude delay for debounce.
 //  current clk with PLL: 50 MHz
@@ -47,8 +40,7 @@ void OutCRLF(void){
 //-------------------------------------------------------------------------------
 void delay(void) {
 	unsigned long i;
-	for(i = 0; i < 833333; i++);
-	
+  for(i = 0; i < 833333; i++);
 }
 
 
@@ -98,7 +90,7 @@ int main(void){
 		UART1_in_num = UART1_InUDec(); 							// Get decimal number from MCU2_UART1
 		LED_Percentage = UART1_in_num*100/4095;			// Calculate Percentage 0~100%
 		UART0_OutUDec(LED_Percentage);							// Display the percentage (don't need by the prompt but for showing that this is worked so far.)
-		OutCRLF();																	// Get a new line each time of display
+		UART0_OutCRLF();														// Get a new line each time of display
 		PWM_PF2_Duty((LED_Percentage*50000/100)-1);	// Change the duty of LED.
 		delay();																		// Create 16.67ms (60Hz) delay
 	} // end superloop

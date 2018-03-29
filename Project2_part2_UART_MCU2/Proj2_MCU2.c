@@ -19,19 +19,9 @@ Revision 1.1: Date: 3/21/2018
 // U1Rx (VCP receive) connected to PB0
 // U1Tx (VCP transmit) connected to PB1
 
-#include "UART.h"
-#include "PLL.h"
-#include "tm4c123gh6pm.h"
-
-//---------------------OutCRLF---------------------------------------------------
-// Output a CR,LF to UART to go to a new line
-// Input: none
-// Output: none
-//-------------------------------------------------------------------------------
-void OutCRLF(void){
-  UART1_OutChar(CR);
-  UART1_OutChar(LF);
-}
+#include "../lib/UART.h"
+#include "../lib/PLL.h"
+#include "../lib/tm4c123gh6pm.h"
 
 //---------------------delay-----------------------------------------------------
 // Crude delay for debounce.
@@ -44,40 +34,6 @@ void OutCRLF(void){
 void delay(void) {
 	unsigned long i;
 	for(i = 0; i < 833333; i++);
-}
-
-//---------------------PortB_UART1_Init------------------------------------------
-// Initialize the UART for 9600 baud rate (assuming 80 MHz UART clock),
-// 8 bit word length, no parity bits, one stop bit, FIFOs enabled
-/*
-	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
-	     = 50,000,000 / (16 * 9600)
-		   = (325).5208
-		   = 325
-		 
-	FBRD = BRDF*64 + 0.05
-	     = 0.5208 *64 +0.05
-		   = (33).3812
-		   = 33
-*/
-// Input: none
-// Output: none
-//--------------------------------------------------------------------------------
-void PortB_UART1_Init(void)
-{
-  SYSCTL_RCGC1_R     |=  0x02;       // activate UART1
-  SYSCTL_RCGCGPIO_R  |=  0x02;       // activate port B
-  while((SYSCTL_PRGPIO_R&0x02) == 0){};	
-  UART1_CTL_R        &= ~0x01;       // disable UART
-  UART1_IBRD_R        =  325;        // IBRD, 80Mhz clk, 9600 baud
-  UART1_FBRD_R        =  33;         // FBRD
-  UART1_LCRH_R        =  0x70;       // 8 bit(no parity, one stop, FIFOs)
-  UART1_CTL_R        |=  0x01;       // enable UART
-  GPIO_PORTB_AFSEL_R |=  0x03;       // enable alt funct on PB0, PB1
-  GPIO_PORTB_PCTL_R  &= ~0x000000FF; // configure PB0 as U1Rx and PB1 as U1Tx
-  GPIO_PORTB_PCTL_R  |=  0x00000011;
-  GPIO_PORTB_AMSEL_R &= ~0x03;       // disable analog funct on PB0, PB1
-  GPIO_PORTB_DEN_R   |=  0x03;       // enable digital I/O on PB0, PB1
 }
 
 //---------------------PortE_Init------------------------------------------
@@ -123,7 +79,7 @@ unsigned long ADC0_InSeq3(void){
 int main(void){
 	unsigned long PE3_ADC0_IN_DATA;
 	PLL_Init();
-	PortB_UART1_Init();									// Initialize UART1
+	UART1_Init();									// Initialize UART1
 	PortE_AIN0_Init();
 	
 	/* Receiving input from PE3(AIN0) with Sequencer3

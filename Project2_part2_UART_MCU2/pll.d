@@ -1,2 +1,2 @@
 .\pll.o: PLL.c
-.\pll.o: PLL.h
+.\pll.o: ../lib/PLL.h

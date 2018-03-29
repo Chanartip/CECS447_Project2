@@ -241,11 +241,11 @@
       <FileNumber>1</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>276</TopLine>
-      <CurrentLine>277</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\startup.s</PathWithFileName>
       <FilenameWithoutPath>startup.s</FilenameWithoutPath>
@@ -257,11 +257,11 @@
       <FileNumber>2</FileNumber>
       <FileType>1</FileType>
       <tvExp>1</tvExp>
-      <Focus>1</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <Focus>0</Focus>
+      <ColumnNumber>17</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>71</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>24</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\PLL.c</PathWithFileName>
       <FilenameWithoutPath>PLL.c</FilenameWithoutPath>
@@ -273,11 +273,11 @@
       <FileNumber>3</FileNumber>
       <FileType>1</FileType>
       <tvExp>1</tvExp>
-      <Focus>1</Focus>
-      <ColumnNumber>42</ColumnNumber>
+      <Focus>0</Focus>
+      <ColumnNumber>1</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>36</TopLine>
-      <CurrentLine>37</CurrentLine>
+      <TopLine>398</TopLine>
+      <CurrentLine>421</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\UART.c</PathWithFileName>
       <FilenameWithoutPath>UART.c</FilenameWithoutPath>
@@ -288,12 +288,12 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>26</ColumnNumber>
+      <ColumnNumber>74</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>75</TopLine>
-      <CurrentLine>64</CurrentLine>
+      <TopLine>67</TopLine>
+      <CurrentLine>93</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Proj2_MCU1.c</PathWithFileName>
       <FilenameWithoutPath>Proj2_MCU1.c</FilenameWithoutPath>

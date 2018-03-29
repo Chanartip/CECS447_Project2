@@ -26,8 +26,8 @@
 // U0Rx (VCP receive) connected to PA0
 // U0Tx (VCP transmit) connected to PA1
 
-#include "UART.h"
-#include "tm4c123gh6pm.h"
+#include "../lib/UART.h"
+#include "../lib/tm4c123gh6pm.h"
 
 
 //------------UART0_Init------------
@@ -170,14 +170,14 @@ char character;
     if((character>='0') && (character<='9')) {
       number = 10*number+(character-'0');   // this line overflows if above 4294967295
       length++;
-      UART0_OutChar(character);
+//      UART0_OutChar(character);
     }
 // If the input is a backspace, then the return number is
 // changed and a backspace is outputted to the screen
     else if((character==BS) && length){
       number /= 10;
       length--;
-      UART0_OutChar(character);
+//      UART0_OutChar(character);
     }
     character = UART0_InChar();
   }
@@ -209,7 +209,7 @@ char character;
     else if((character==BS) && length){
       number /= 10;
       length--;
-      UART1_OutChar(character);
+//      UART1_OutChar(character);
     }
     character = UART1_InChar();
   }
@@ -356,7 +356,7 @@ char character;
 // Input: pointer to empty buffer, size of buffer
 // Output: Null terminated string
 // -- Modified by Agustinus Darmawan + Mingjie Qiu --
-void UART_InString(char *bufPt, unsigned short max) {
+void UART1_InString(char *bufPt, unsigned short max) {
 int length=0;
 char character;
   character = UART1_InChar();
@@ -365,14 +365,14 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART1_OutChar(BS);
+//        UART1_OutChar(BS);
       }
     }
     else if(length < max){
       *bufPt = character;
       bufPt++;
       length++;
-      UART1_OutChar(character);
+//      UART1_OutChar(character);
     }
     character = UART1_InChar();
   }
@@ -408,4 +408,22 @@ unsigned char UART1_NonBlockingInChar(void)
   {
     return 0;
   }
+}
+
+//---------------------UART0_OutCRLF---------------------
+// Output a CR,LF to UART to go to a new line
+// Input: none
+// Output: none
+void UART0_OutCRLF(void){
+  UART0_OutChar(CR);
+  UART0_OutChar(LF);
+	
+}
+//---------------------UART1_OutCRLF---------------------
+// Output a CR,LF to UART to go to a new line
+// Input: none
+// Output: none
+void UART1_OutCRLF(void){
+  UART1_OutChar(CR);
+  UART1_OutChar(LF);
 }

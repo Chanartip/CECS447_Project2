@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\UART.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\UART.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Thu Mar 29 14:56:23 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Thu Mar 29 13:09:13 2018
 <BR><P>
 <H3>Maximum Stack Usage =         12 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -769,14 +769,14 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
+<P><STRONG><a name="[95]"></a>PortB_UART1_Init</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, proj2_mcu2.o(i.PortB_UART1_Init))
+<BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
 <P><STRONG><a name="[96]"></a>PortE_AIN0_Init</STRONG> (Thumb, 202 bytes, Stack size 8 bytes, proj2_mcu2.o(i.PortE_AIN0_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = PortE_AIN0_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[95]"></a>UART1_Init</STRONG> (Thumb, 140 bytes, Stack size 0 bytes, uart.o(i.UART1_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[93]"></a>UART1_OutChar</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, uart.o(i.UART1_OutChar))
@@ -804,10 +804,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutChar
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_Init
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PLL_Init
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortE_AIN0_Init
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortB_UART1_Init
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC0_InSeq3
 </UL>
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
