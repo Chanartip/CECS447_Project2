@@ -121,6 +121,8 @@ int main(void){
 			//   waits to receive confirmation message
 			//   and display on terminal.
 			UART1_InString(&bufPt, max);
+			UART0_OutString(&bufPt);
+			OutCRLF();
 		}
 		
 		// Part 2.2.c) RED LED is OFF.
@@ -130,6 +132,8 @@ int main(void){
 		UART1_in_char = UART1_NonBlockingInChar();
 		if(UART1_in_char == _$){
 			UART1_InString(&bufPt, max);
+			UART0_OutString(&bufPt);
+			OutCRLF();
 		}
                                                                                                                                                                                            
 		delay();																		// Create 16.67ms (60Hz) delay

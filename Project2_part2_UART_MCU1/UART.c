@@ -365,14 +365,14 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART0_OutChar(BS);
+//        UART0_OutChar(BS);
       }
     }
     else if(length < max){
       *bufPt = character;
       bufPt++;
       length++;
-      UART0_OutChar(character);
+//      UART0_OutChar(character);
     }
     character = UART1_InChar();
   }
