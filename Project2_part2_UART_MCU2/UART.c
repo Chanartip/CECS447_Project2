@@ -86,16 +86,16 @@ void UART1_OutChar(unsigned char data){
 }
 
 
-////------------UART_OutString------------
-//// Output String (NULL termination)
-//// Input: pointer to a NULL-terminated string to be transferred
-//// Output: none
-//void UART_OutString(char *pt){
-//  while(*pt){
-//    UART_OutChar(*pt);
-//    pt++;
-//  }
-//}
+//------------UART1_OutString------------
+// Output String (NULL termination)
+// Input: pointer to a NULL-terminated string to be transferred
+// Output: none
+void UART1_OutString(char *pt){
+  while(*pt){
+    UART1_OutChar(*pt);
+    pt++;
+  }
+}
 
 ////------------UART_InUDec------------
 //// InUDec accepts ASCII input in unsigned decimal format
@@ -242,3 +242,19 @@ void UART1_OutUDec(unsigned long n){
 //  }
 //  *bufPt = 0;
 //}
+
+//------------UART1_NonBlockingInChar------------
+// Get serial port input and return immediately
+// Input: none
+// Output: ASCII code for key typed or 0 if no character
+unsigned char UART1_NonBlockingInChar(void)
+{
+  if((UART1_FR_R&UART_FR_RXFE) == 0)
+  {
+    return((unsigned char)(UART1_DR_R&0xFF));
+  } 
+  else
+  {
+    return 0;
+  }
+}

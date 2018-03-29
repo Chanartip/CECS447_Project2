@@ -23,6 +23,15 @@ Revision 1.1: Date: 3/21/2018
 #include "PLL.h"
 #include "tm4c123gh6pm.h"
 
+#define _r 0x72
+#define _$ 0x24
+
+#define SW0 (*((volatile unsigned long *)0x40025004))
+#define LED (*((volatile unsigned long *)0x40025008))
+#define LOW_ACTIVE 0
+
+unsigned char BLINK_FLAG = 0;
+
 //---------------------OutCRLF---------------------------------------------------
 // Output a CR,LF to UART to go to a new line
 // Input: none
@@ -80,11 +89,11 @@ void PortB_UART1_Init(void)
   GPIO_PORTB_DEN_R   |=  0x03;       // enable digital I/O on PB0, PB1
 }
 
-//---------------------PortE_Init------------------------------------------
+//---------------------PortE_AIN0_Init-----------------------------------------
 //	Initialize Analog Input PE3
 //	input: none
 //	output: none
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------
 void PortE_AIN0_Init(void){ volatile unsigned long delay;
   SYSCTL_RCGC2_R     |= 0x00000010;  // 1) Activate clock for Port E
   delay = SYSCTL_RCGC2_R;            //    Allow time for clock to start.
@@ -106,10 +115,11 @@ void PortE_AIN0_Init(void){ volatile unsigned long delay;
   ADC0_ACTSS_R       |=  0x0008;     // 13) enable sample sequencer 3
 
 }
-//------------ADC0_InSeq3------------
+//--------------------------ADC0_InSeq3-----------------------------------
 // Busy-wait Analog to digital conversion
 // Input: none
 // Output: 12-bit result of ADC conversion
+//------------------------------------------------------------------------
 unsigned long ADC0_InSeq3(void){  
 	unsigned long result;
   ADC0_PSSI_R = 0x0008;            // 1) initiate SS3
@@ -119,24 +129,117 @@ unsigned long ADC0_InSeq3(void){
   return result;
 }
 
+//---------------------PortF_Init------------------------------------------
+//	Initialize push button 0 and Red LED on TM4C123
+//	input: none
+//	output: none
+//-------------------------------------------------------------------------
+void PortF_Init(void){ volatile unsigned long FallingEdges = 0;
+  SYSCTL_RCGC2_R |= 0x00000020;      // (a) activate clock for port F
+  FallingEdges = 0;             	   // (b) initialize counter
+  GPIO_PORTF_LOCK_R   =  0x4C4F434B; //     unlock PortF
+  GPIO_PORTF_DIR_R   &= ~0x01;       // (c) make PF0 in (built-in button)
+	GPIO_PORTF_DIR_R   |=  0x02;       // (c) make PF1 out
+  GPIO_PORTF_AFSEL_R &= ~0x03;       //     disable alt funct on PF0-1
+  GPIO_PORTF_DEN_R   |=  0x03;       //     enable digital I/O on PF0-1
+  GPIO_PORTF_PCTL_R  &= ~0x000000FF; //     configure PF0-1 as GPIO
+  GPIO_PORTF_AMSEL_R &=  0x03;       //     disable analog functionality on PF0-1
+	GPIO_PORTF_PUR_R   |=  0x01;       //     enable weak pull-up on PF0
+	
+	LED &= ~0x02; 	// set RED OFF;
+	
+	// In case using PF0 as edge-interrupt
+//  GPIO_PORTF_IS_R    &= ~0x01;       // (d) PF0 is edge-sensitive
+//  GPIO_PORTF_IBE_R   &= ~0x01;       //     PF0 is not both edges
+//  GPIO_PORTF_IEV_R   &= ~0x01;       //     PF0 falling edge event
+//  GPIO_PORTF_ICR_R   |=  0x01;       // (e) clear flag0
+//  GPIO_PORTF_IM_R    |=  0x01;       // (f) arm interrupt on PF0
+//  NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|0x00A00000; // (g) priority 5
+//  NVIC_EN0_R |= 0x40000000;          // (h) enable interrupt 30 in NVIC
+}
+
+// Initialize SysTick with busy wait running at bus clock.
+void SysTick_Init(void){
+  NVIC_ST_CTRL_R = 0;                   // disable SysTick during setup
+  NVIC_ST_RELOAD_R = NVIC_ST_RELOAD_M;  // maximum reload value
+  NVIC_ST_CURRENT_R = 0;                // any write to current clears it
+  NVIC_SYS_PRI3_R = (NVIC_SYS_PRI3_R&0x00FFFFFF)|0x20000000; // priority 1
+                                        // enable SysTick with core clock
+  NVIC_ST_CTRL_R = NVIC_ST_CTRL_ENABLE+NVIC_ST_CTRL_CLK_SRC;
+}
+void SysTick_Handler(void){
+	static unsigned long counter_1 = 0;
+	static unsigned char counter_2 = 0;
+	
+	/* counters are counting for 1 second interval
+	 * (50,000,000 ticks of 50MHz = 1 sec)
+	 * if a second meets and if BLINKING FLAG
+	 * is active, toggle the RED LED.
+	 * Otherwise, keep counting in background.
+	 */
+	if(counter_1 < 1000000){
+		counter_1++;
+	}
+	else{
+		counter_1 = 0;
+		counter_2++;
+		
+		if(counter_2 >= 50){
+			if(BLINK_FLAG){
+				LED ^= LED; 			// Toggle Red LED
+			}
+		} 
+			
+	}
+	
+
+	
+}
+
 //---------------------main---------------------
 int main(void){
 	unsigned long PE3_ADC0_IN_DATA;
-	PLL_Init();
-	PortB_UART1_Init();									// Initialize UART1
-	PortE_AIN0_Init();
+	unsigned char UART1_in_char;
 	
-	/* Receiving input from PE3(AIN0) with Sequencer3
-	 * 	then transfers the converted digital data 
-	 *  through UART1_TX from this MCU_2 to MCU_1
-	 * Delaying about 1.25ms before receiving new Analog
-	 * 	data input, so the input incoming won't be too often.
-	 */
+	PLL_Init();
+	SysTick_Init();								// Initialize Systick for Red LED
+	PortB_UART1_Init();						// Initialize UART1
+	PortE_AIN0_Init();						// Initialize AIN0 and ADC0
+	PortF_Init();								  // Initialize SW0 and RED LED
+
 	while(1){
+		// Part 2.1
+		/* Receiving input from PE3(AIN0) with Sequencer3
+		 * 	then transfers the converted digital data 
+		 *  through UART1_TX from this MCU_2 to MCU_1
+		 * Delaying about 16.67ms before receiving new Analog
+		 * 	data input, so the input incoming won't be too often.
+		 */
 		PE3_ADC0_IN_DATA = ADC0_InSeq3(); // Getting Input from Sequencer3
 		UART1_OutUDec(PE3_ADC0_IN_DATA);
 		UART1_OutChar(CR);
-		delay();
+		
+		// Part 2.2.a) receive 'r'
+		UART1_in_char = UART1_NonBlockingInChar();
+		
+		// Part 2.2.b) Blinks the LED and sends confirmation message
+		if(UART1_in_char == _r){ 
+			BLINK_FLAG = 1;			                      // set Blinking RED LED flag
+			UART1_OutString("Red LED is Blinking.");	// Sending Confirmation Message
+			UART1_OutChar(CR);
+		}
+		
+		// Part 2.2.c) Turn off the LED and sends confirmation message
+		if(SW0 == LOW_ACTIVE){
+			BLINK_FLAG = 0;														// Turn off Red LED
+			UART1_OutChar(_$);												// Send a trigger for the message
+			UART1_OutString("Red LED is off.");       // Sending Confirmation Message
+			UART1_OutChar(CR);
+		}
+		
+		// 16.67 ms delay.
+		delay();			
+		
 	} // end superloop
 
 }
