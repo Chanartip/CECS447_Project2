@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\UART.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\UART.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Fri Mar 30 23:04:52 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Sat Mar 31 12:40:32 2018
 <BR><P>
-<H3>Maximum Stack Usage =         20 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =         16 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-SysTick_Handler &rArr; UART1_OutUDec &rArr;  UART1_OutUDec (Cycle)
+__rt_entry_main &rArr; main &rArr; SysTick_Init
 <P>
 <H3>
 Functions with no stack information
@@ -15,8 +15,8 @@ Functions with no stack information
  <LI><a href="#[7f]">Reset_Handler</a>
  <LI><a href="#[bf]">DisableInterrupts</a>
  <LI><a href="#[c0]">EnableInterrupts</a>
- <LI><a href="#[97]">StartCritical</a>
- <LI><a href="#[98]">EndCritical</a>
+ <LI><a href="#[94]">StartCritical</a>
+ <LI><a href="#[95]">EndCritical</a>
  <LI><a href="#[c1]">WaitForInterrupt</a>
  <LI><a href="#[91]">__user_initial_stackheap</a>
 </UL>
@@ -33,7 +33,7 @@ Mutually Recursive functions
  <LI><a href="#[a]">DebugMon_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[a]">DebugMon_Handler</a><BR>
  <LI><a href="#[b]">PendSV_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[b]">PendSV_Handler</a><BR>
  <LI><a href="#[1b]">ADC0Seq0_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[1b]">ADC0Seq0_Handler</a><BR>
- <LI><a href="#[93]">UART1_OutUDec</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[93]">UART1_OutUDec</a><BR>
+ <LI><a href="#[96]">UART1_OutUDec</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[96]">UART1_OutUDec</a><BR>
 </UL>
 <P>
 <H3>
@@ -709,12 +709,12 @@ Global Symbols
 
 <P><STRONG><a name="[c0]"></a>EnableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
 
-<P><STRONG><a name="[97]"></a>StartCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init
+<P><STRONG><a name="[94]"></a>StartCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init
 </UL>
 
-<P><STRONG><a name="[98]"></a>EndCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init
+<P><STRONG><a name="[95]"></a>EndCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init
 </UL>
 
 <P><STRONG><a name="[c1]"></a>WaitForInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(.text), UNUSED)
@@ -763,81 +763,72 @@ Global Symbols
 
 <P><STRONG><a name="[c9]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[99]"></a>PLL_Init</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, pll.o(i.PLL_Init))
+<P><STRONG><a name="[98]"></a>PLL_Init</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, pll.o(i.PLL_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9a]"></a>PortB_UART1_Init</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, proj2_mcu2.o(i.PortB_UART1_Init))
+<P><STRONG><a name="[99]"></a>PortB_UART1_Init</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, proj2_mcu2.o(i.PortB_UART1_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9b]"></a>PortE_AIN0_Init</STRONG> (Thumb, 202 bytes, Stack size 8 bytes, proj2_mcu2.o(i.PortE_AIN0_Init))
+<P><STRONG><a name="[9a]"></a>PortE_AIN0_Init</STRONG> (Thumb, 202 bytes, Stack size 8 bytes, proj2_mcu2.o(i.PortE_AIN0_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = PortE_AIN0_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9c]"></a>PortF_Init</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, proj2_mcu2.o(i.PortF_Init))
+<P><STRONG><a name="[9b]"></a>PortF_Init</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, proj2_mcu2.o(i.PortF_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = PortF_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[c]"></a>SysTick_Handler</STRONG> (Thumb, 78 bytes, Stack size 8 bytes, proj2_mcu2.o(i.SysTick_Handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SysTick_Handler &rArr; UART1_OutUDec &rArr;  UART1_OutUDec (Cycle)
-</UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutChar
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_NonBlockingInChar
-</UL>
+<P><STRONG><a name="[c]"></a>SysTick_Handler</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, proj2_mcu2.o(i.SysTick_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[96]"></a>SysTick_Init</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, proj2_mcu2.o(i.SysTick_Init))
+<P><STRONG><a name="[93]"></a>SysTick_Init</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, proj2_mcu2.o(i.SysTick_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
 <LI>Call Chain = SysTick_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EndCritical
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCritical
+<BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EndCritical
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCritical
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[95]"></a>UART1_NonBlockingInChar</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, uart.o(i.UART1_NonBlockingInChar))
+<P><STRONG><a name="[9c]"></a>UART1_NonBlockingInChar</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, uart.o(i.UART1_NonBlockingInChar))
 <BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[94]"></a>UART1_OutChar</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, uart.o(i.UART1_OutChar))
-<BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
+<P><STRONG><a name="[97]"></a>UART1_OutChar</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, uart.o(i.UART1_OutChar))
+<BR><BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[93]"></a>UART1_OutUDec</STRONG> (Thumb, 42 bytes, Stack size 12 bytes, uart.o(i.UART1_OutUDec))
+<P><STRONG><a name="[96]"></a>UART1_OutUDec</STRONG> (Thumb, 42 bytes, Stack size 12 bytes, uart.o(i.UART1_OutUDec))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12 + In Cycle
 <LI>Call Chain = UART1_OutUDec &rArr;  UART1_OutUDec (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutChar
+<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutChar
 </UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
+<BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
 <P><STRONG><a name="[8a]"></a>main</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, proj2_mcu2.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
 <LI>Call Chain = main &rArr; SysTick_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutChar
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_NonBlockingInChar
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PLL_Init
+<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutUDec
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_OutChar
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART1_NonBlockingInChar
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PLL_Init
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_button
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortF_Init
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortE_AIN0_Init
-<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortB_UART1_Init
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Init
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortF_Init
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortE_AIN0_Init
+<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PortB_UART1_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>

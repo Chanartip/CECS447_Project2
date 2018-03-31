@@ -411,9 +411,9 @@
               <FilePath>.\startup.s</FilePath>
             </File>
             <File>
-              <FileName>Proj2_MCU2.c</FileName>
+              <FileName>PLL.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Proj2_MCU2.c</FilePath>
+              <FilePath>.\PLL.c</FilePath>
             </File>
             <File>
               <FileName>UART.c</FileName>
@@ -421,14 +421,9 @@
               <FilePath>.\UART.c</FilePath>
             </File>
             <File>
-              <FileName>PLL.c</FileName>
+              <FileName>Proj2_MCU1.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\PLL.c</FilePath>
-            </File>
-            <File>
-              <FileName>SysTick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\SysTick.c</FilePath>
+              <FilePath>.\Proj2_MCU1.c</FilePath>
             </File>
           </Files>
         </Group>
