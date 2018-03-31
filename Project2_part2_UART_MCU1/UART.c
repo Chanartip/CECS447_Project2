@@ -195,23 +195,23 @@ char character;
 unsigned long UART1_InUDec(void){
 unsigned long number=0, length=0;
 char character;
-  character = UART1_InChar();
+  character = UART1_NonBlockingInChar();
   while(character != CR){ // accepts until <enter> is typed
 // The next line checks that the input is a digit, 0-9.
 // If the character is not 0-9, it is ignored and not echoed
     if((character>='0') && (character<='9')) {
       number = 10*number+(character-'0');   // this line overflows if above 4294967295
       length++;
-//      UART1_OutChar(character);
+//      UART0_OutChar(character);
     }
 // If the input is a backspace, then the return number is
 // changed and a backspace is outputted to the screen
     else if((character==BS) && length){
       number /= 10;
       length--;
-//      UART1_OutChar(character);
+//      UART0_OutChar(character);
     }
-    character = UART1_InChar();
+    character = UART1_NonBlockingInChar();
   }
   return number;
 }
@@ -330,14 +330,14 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART0_OutChar(BS);
+//        UART0_OutChar(BS);
       }
     }
     else if(length < max){
       *bufPt = character;
       bufPt++;
       length++;
-      UART0_OutChar(character);
+//      UART0_OutChar(character);
     }
     character = UART0_InChar();
   }

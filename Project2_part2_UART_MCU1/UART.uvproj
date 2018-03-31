@@ -425,6 +425,11 @@
               <FileType>1</FileType>
               <FilePath>.\Proj2_MCU1.c</FilePath>
             </File>
+            <File>
+              <FileName>SysTick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SysTick.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
