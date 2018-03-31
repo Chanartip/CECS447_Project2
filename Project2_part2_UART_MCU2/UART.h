@@ -10,7 +10,6 @@
    "Embedded Systems: Real Time Interfacing to Arm Cortex M Microcontrollers",
    ISBN: 978-1463590154, Jonathan Valvano, copyright (c) 2013
    Program 4.12, Section 4.9.4, Figures 4.26 and 4.40
-
  Copyright 2013 by Jonathan W. Valvano, valvano@mail.utexas.edu
     You may use, edit, run or distribute this file
     as long as the above copyright notice remains
@@ -57,7 +56,7 @@ void UART1_OutChar(unsigned char data);
 // Output String (NULL termination)
 // Input: pointer to a NULL-terminated string to be transferred
 // Output: none
-//void UART_OutString(char *pt);
+void UART1_OutString(char *pt);
 
 //------------UART_InUDec------------
 // InUDec accepts ASCII input in unsigned decimal format
@@ -108,3 +107,9 @@ void UART1_OutUDec(unsigned long n);
 // Output: Null terminated string
 // -- Modified by Agustinus Darmawan + Mingjie Qiu --
 //void UART_InString(char *bufPt, unsigned short max);
+
+//------------UART_NonBlockingInChar------------
+// Get serial port input and return immediately
+// Input: none
+// Output: ASCII code for key typed or 0 if no character
+unsigned char UART1_NonBlockingInChar(void);

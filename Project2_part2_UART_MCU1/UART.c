@@ -10,7 +10,6 @@
    "Embedded Systems: Real Time Interfacing to Arm Cortex M Microcontrollers",
    ISBN: 978-1463590154, Jonathan Valvano, copyright (c) 2013
    Program 4.12, Section 4.9.4, Figures 4.26 and 4.40
-
  Copyright 2013 by Jonathan W. Valvano, valvano@mail.utexas.edu
     You may use, edit, run or distribute this file
     as long as the above copyright notice remains
@@ -356,7 +355,7 @@ char character;
 // Input: pointer to empty buffer, size of buffer
 // Output: Null terminated string
 // -- Modified by Agustinus Darmawan + Mingjie Qiu --
-void UART_InString(char *bufPt, unsigned short max) {
+void UART1_InString(char *bufPt, unsigned short max) {
 int length=0;
 char character;
   character = UART1_InChar();
@@ -365,14 +364,14 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART1_OutChar(BS);
+        UART0_OutChar(BS);
       }
     }
     else if(length < max){
       *bufPt = character;
       bufPt++;
       length++;
-      UART1_OutChar(character);
+      UART0_OutChar(character);
     }
     character = UART1_InChar();
   }

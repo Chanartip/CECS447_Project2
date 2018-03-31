@@ -7,7 +7,6 @@
 /* This example accompanies the book
    "Embedded Systems: Real Time Interfacing to Arm Cortex M Microcontrollers",
    ISBN: 978-1463590154, Jonathan Valvano, copyright (c) 2013
-
  Copyright 2013 by Jonathan W. Valvano, valvano@mail.utexas.edu
     You may use, edit, run or distribute this file
     as long as the above copyright notice remains
@@ -28,7 +27,9 @@
 #include "tm4c123gh6pm.h"
 
 #define LED (*((volatile unsigned long *)0x40025038))		// PF3-1
-	
+#define _r 0x72
+#define _$ 0x24
+
 //---------------------OutCRLF---------------------
 // Output a CR,LF to UART to go to a new line
 // Input: none
@@ -85,21 +86,51 @@ void PWM_PF2_Duty(unsigned int duty){
 }
 
 int main(void){
-	unsigned int UART1_in_num;
+	unsigned int  UART1_in_num;
+	unsigned char UART1_in_char;
+	unsigned char UART0_in_char;
 	unsigned long LED_Percentage;
-	
+	char bufPt;
+	unsigned short max=32;
+		
 	PLL_Init();												// Initialize 50MHz PLL
 	UART0_Init();											// Initialize UART0
 	UART1_Init();									    // Initialize UART1
 	M1_PWM6_PF2_Init(50000,35000);		// Initialize M1PMW6 with 1000 Hz and 70% duty
 	
 	while(1){
-		
+		// Part 2.1)
+		// 	 Receives ADC value from MCU2,
+		//	 calculate the percentage of the ADC value
+		//	 to adjust PWM Blue LED's Brightness.
 		UART1_in_num = UART1_InUDec(); 							// Get decimal number from MCU2_UART1
 		LED_Percentage = UART1_in_num*100/4095;			// Calculate Percentage 0~100%
 		UART0_OutUDec(LED_Percentage);							// Display the percentage (don't need by the prompt but for showing that this is worked so far.)
 		OutCRLF();																	// Get a new line each time of display
 		PWM_PF2_Duty((LED_Percentage*50000/100)-1);	// Change the duty of LED.
+		
+		// Part 2.2.a) 
+		//	 Receive 'r' confirms that the RED LED Blinking on MCU2.
+		//   Then send to MCU2 through UART0.
+		UART0_in_char = UART0_NonBlockingInChar();
+		if(UART0_in_char == _r){
+			UART1_OutChar(UART0_in_char);
+					
+			// Part 2.2.b) RED LED BLINKING
+			//   waits to receive confirmation message
+			//   and display on terminal.
+			UART1_InString(&bufPt, max);
+		}
+		
+		// Part 2.2.c) RED LED is OFF.
+		//	 Receive '$' confirms that the RED LED on MCU2 is OFF.
+		//   waits to receive confirmation message
+		//   and display on terminal.
+		UART1_in_char = UART1_NonBlockingInChar();
+		if(UART1_in_char == _$){
+			UART1_InString(&bufPt, max);
+		}
+                                                                                                                                                                                           
 		delay();																		// Create 16.67ms (60Hz) delay
 	} // end superloop
 
