@@ -27,8 +27,8 @@
 #include "UART.h"
 #include "tm4c123gh6pm.h"
 
-#define LED (*((volatile unsigned long *)0x40025038))		// PF3-1
-	
+#define LED (*((volatile unsigned long *)0x40025038))        // PF3-1
+    
 //---------------------OutCRLF---------------------
 // Output a CR,LF to UART to go to a new line
 // Input: none
@@ -46,20 +46,20 @@ void OutCRLF(void){
 // Output: none
 //-------------------------------------------------------------------------------
 void delay(void) {
-	unsigned long i;
-	for(i = 0; i < 833333; i++);
-	
+    unsigned long i;
+    for(i = 0; i < 833333; i++);
+    
 }
 
 
 //
 //
 void M1_PWM6_PF2_Init(unsigned int period, unsigned int duty){
-	
+    
   volatile unsigned long delay;
   SYSCTL_RCGCPWM_R |= 0x02;             // 1) activate PWM1
   SYSCTL_RCGCGPIO_R |= 0x20;            // 2) activate port F
-	GPIO_PORTF_LOCK_R = GPIO_LOCK_KEY;
+    GPIO_PORTF_LOCK_R = GPIO_LOCK_KEY;
   delay = SYSCTL_RCGCGPIO_R;            // allow time to finish activating delay here
   GPIO_PORTF_AFSEL_R |= 0x04;           // enable alt funct on PF2
   GPIO_PORTF_PCTL_R &= ~0x00000F00;     // configure PF2 as M1PWM6
@@ -73,11 +73,11 @@ void M1_PWM6_PF2_Init(unsigned int period, unsigned int duty){
   
   PWM1_3_GENA_R = 0xC8;
   PWM1_3_LOAD_R = period - 1;           // 5) cycles needed to count down to 0 
-  PWM1_3_CMPA_R = duty - 1;							// 6) count value when output rises
+  PWM1_3_CMPA_R = duty - 1;                            // 6) count value when output rises
   
   PWM1_3_CTL_R |= 0x00000001;           // 7) start PWM1
   PWM1_ENABLE_R |= 0x00000040;          // enable PF2/M1PWM6
-	
+    
 }
 // change duty cycle of PB6
 void PWM_PF2_Duty(unsigned int duty){
@@ -85,22 +85,22 @@ void PWM_PF2_Duty(unsigned int duty){
 }
 
 int main(void){
-	unsigned int UART1_in_num;
-	unsigned long LED_Percentage;
-	
-	PLL_Init();												// Initialize 50MHz PLL
-	UART0_Init();											// Initialize UART0
-	UART1_Init();									    // Initialize UART1
-	M1_PWM6_PF2_Init(50000,35000);		// Initialize M1PMW6 with 1000 Hz and 70% duty
-	
-	while(1){
-		
-		UART1_in_num = UART1_InUDec(); 							// Get decimal number from MCU2_UART1
-		LED_Percentage = UART1_in_num*100/4095;			// Calculate Percentage 0~100%
-		UART0_OutUDec(LED_Percentage);							// Display the percentage (don't need by the prompt but for showing that this is worked so far.)
-		OutCRLF();																	// Get a new line each time of display
-		PWM_PF2_Duty((LED_Percentage*50000/100)-1);	// Change the duty of LED.
-		delay();																		// Create 16.67ms (60Hz) delay
-	} // end superloop
+    unsigned int UART1_in_num;
+    unsigned long LED_Percentage;
+    
+    PLL_Init();                                     // Initialize 50MHz PLL
+    UART0_Init();                                   // Initialize UART0
+    UART1_Init();                                   // Initialize UART1
+    M1_PWM6_PF2_Init(50000,35000);                  // Initialize M1PMW6 with 1000 Hz and 70% duty
+    
+    while(1){
+        
+        UART1_in_num = UART1_InUDec();               // Get decimal number from MCU2_UART1
+        LED_Percentage = UART1_in_num*100/4095;      // Calculate Percentage 0~100%
+        UART0_OutUDec(LED_Percentage);               // Display the percentage (don't need by the prompt but for showing that this is worked so far.)
+        OutCRLF();                                   // Get a new line each time of display
+        PWM_PF2_Duty((LED_Percentage*50000/100)-1);  // Change the duty of LED.
+        delay();                                     // Create 16.67ms (60Hz) delay
+    } // end superloop
 
 }
