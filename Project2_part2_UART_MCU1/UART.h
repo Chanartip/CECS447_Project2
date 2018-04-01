@@ -40,7 +40,6 @@
 // Input: none
 // Output: none
 void UART0_Init(void);
-void UART1_Init(void);
 
 //------------UART_InChar------------
 // Wait for new serial port input
@@ -116,9 +115,11 @@ void UART1_OutUDec(unsigned long n);
 void UART0_InString(char *bufPt, unsigned short max);
 void UART1_InString(char *bufPt, unsigned short max);
 
+
 //------------UART_NonBlockingInChar------------
 // Get serial port input and return immediately
 // Input: none
 // Output: ASCII code for key typed or 0 if no character
 unsigned char UART0_NonBlockingInChar(void);
 unsigned char UART1_NonBlockingInChar(void);
+

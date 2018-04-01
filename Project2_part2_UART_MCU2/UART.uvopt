@@ -147,9 +147,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>85</LineNumber>
+          <LineNumber>89</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1524</Address>
+          <Address>1780</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -158,23 +158,23 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\UART.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\UART\UART.c\89</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>139</LineNumber>
+          <LineNumber>88</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1632</Address>
+          <Address>1768</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\Proj2_MCU2.c</Filename>
+          <Filename>.\UART.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\UART\UART.c\88</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -187,6 +187,11 @@
           <count>1</count>
           <WinNumber>1</WinNumber>
           <ItemText>data</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>UART0_FR_R</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -243,8 +248,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>274</TopLine>
-      <CurrentLine>277</CurrentLine>
+      <TopLine>294</TopLine>
+      <CurrentLine>301</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\startup.s</PathWithFileName>
       <FilenameWithoutPath>startup.s</FilenameWithoutPath>
@@ -257,10 +262,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>9</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>22</TopLine>
-      <CurrentLine>132</CurrentLine>
+      <TopLine>215</TopLine>
+      <CurrentLine>9</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Proj2_MCU2.c</PathWithFileName>
       <FilenameWithoutPath>Proj2_MCU2.c</FilenameWithoutPath>
@@ -275,8 +280,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>139</TopLine>
-      <CurrentLine>85</CurrentLine>
+      <TopLine>43</TopLine>
+      <CurrentLine>88</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\UART.c</PathWithFileName>
       <FilenameWithoutPath>UART.c</FilenameWithoutPath>

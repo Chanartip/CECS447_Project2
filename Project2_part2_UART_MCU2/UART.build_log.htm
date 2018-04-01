@@ -3,10 +3,80 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-C:\Users\Chana\OneDrive\2018Spring_CSULB\CECS447_Microcontroller\Project2_part2_UART_MCU2\UART.uvproj
-Project File Date:  03/22/2018
+C:\Users\Charles\OneDrive\2018Spring_CSULB\CECS447_Microcontroller\Project2\Project2_part2_UART_MCU2\UART.uvproj
+Project File Date:  04/01/2018
 
 <h2>Output:</h2>
+Rebuild target 'UART'
+assembling startup.s...
+compiling Proj2_MCU2.c...
+compiling UART.c...
+compiling PLL.c...
+linking...
+Program Size: Code=1880 RO-data=32 RW-data=24 ZI-data=1120  
+".\UART.axf" - 0 Error(s), 0 Warning(s).
+Load "C:\\Users\\Charles\\OneDrive\\2018Spring_CSULB\\CECS447_Microcontroller\\Project2\\Project2_part2_UART_MCU2\\UART.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
 </pre>
 </body>
 </html>
+_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // activate port A
+UART.c(56): error:  #18: expected a ")"
+    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // activate port A
+UART.c(56): error:  #65: expected a ";"
+    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // activate port A
+UART.c(57): error:  #40: expected an identifier
+    UART0_CTL_R &= ~UART_CTL_UARTEN;      // disable UART
+UART.c(57): error:  #18: expected a ")"
+    UART0_CTL_R &= ~UART_CTL_UARTEN;      // disable UART
+UART.c(57): error:  #65: expected a ";"
+    UART0_CTL_R &= ~UART_CTL_UARTEN;      // disable UART
+UART.c(58): error:  #40: expected an identifier
+    UART0_IBRD_R = 325;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
+UART.c(58): error:  #18: expected a ")"
+    UART0_IBRD_R = 325;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
+UART.c(58): error:  #144: a value of type "int" cannot be used to initialize an entity of type "int *"
+    UART0_IBRD_R = 325;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
+UART.c(59): error:  #40: expected an identifier
+    UART0_FBRD_R = 33;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
+UART.c(59): error:  #18: expected a ")"
+    UART0_FBRD_R = 33;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
+UART.c(59): error:  #144: a value of type "int" cannot be used to initialize an entity of type "int *"
+    UART0_FBRD_R = 33;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
+UART.c(61): error:  #40: expected an identifier
+    UART0_LCRH_R = 0x70;
+UART.c(61): error:  #18: expected a ")"
+    UART0_LCRH_R = 0x70;
+UART.c(61): error:  #144: a value of type "int" cannot be used to initialize an entity of type "int *"
+    UART0_LCRH_R = 0x70;
+UART.c(62): error:  #40: expected an identifier
+    UART0_CTL_R |= UART_CTL_UARTEN;       // enable UART
+UART.c(62): error:  #18: expected a ")"
+    UART0_CTL_R |= UART_CTL_UARTEN;       // enable UART
+UART.c(62): error:  #65: expected a ";"
+    UART0_CTL_R |= UART_CTL_UARTEN;       // enable UART
+UART.c(63): error:  #40: expected an identifier
+    GPIO_PORTA_AFSEL_R |= 0x03;           // enable alt funct on PA1-0
+UART.c(63): error:  #18: expected a ")"
+    GPIO_PORTA_AFSEL_R |= 0x03;           // enable alt funct on PA1-0
+UART.c(63): error:  #65: expected a ";"
+    GPIO_PORTA_AFSEL_R |= 0x03;           // enable alt funct on PA1-0
+UART.c(64): error:  #40: expected an identifier
+    GPIO_PORTA_DEN_R   |= 0x03;           // enable digital I/O on PA1-0
+UART.c(64): error:  #18: expected a ")"
+    GPIO_PORTA_DEN_R   |= 0x03;           // enable digital I/O on PA1-0
+UART.c(64): error:  #65: expected a ";"
+    GPIO_PORTA_DEN_R   |= 0x03;           // enable digital I/O on PA1-0
+UART.c(66): error:  #40: expected an identifier
+    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0xFFFFFF00)+0x00000011;
+UART.c(66): error:  #18: expected a ")"
+    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0xFFFFFF00)+0x00000011;
+UART.c(66): error:  #28: expression must have a constant value
+    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0xFFFFFF00)+0x00000011;
+UART.c: 0 warnings, 30 errors
+compiling PLL.c...
+".\UART.axf" - 30 Error(s), 0 Warning(s).
+Target not created
