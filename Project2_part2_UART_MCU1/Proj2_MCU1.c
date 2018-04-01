@@ -109,11 +109,15 @@ int main(void){
             //	 calculate the percentage of the ADC value
             //	 to adjust PWM Blue LED's Brightness.
             UART1_in_num = UART1_InUDec();               // Get decimal number from MCU2_UART1
+            UART0_OutString("ADC Value from UART1: ");
+            UART0_OutUDec(UART1_in_num);
+            UART0_NonBlockingOutChar(CR);
+            UART0_OutString(" which is ");
             LED_Percentage = UART1_in_num*100/4095;      // Calculate Percentage 0~100%
-            UART0_OutUDec(UPDATE_SYS);
-            UART0_OutChar('*');
             UART0_OutUDec(LED_Percentage);               // Display the percentage (don't need by the prompt but for showing that this is worked so far.)
-            UART0_OutCRLF();                             // Get a new line each time of display
+            UART0_NonBlockingOutChar(CR);
+            UART0_OutString("%");
+            UART0_OutCRLF();
             PWM_PF2_Duty((LED_Percentage*50000/100)-1);  // Change the duty of LED.
             
             UPDATE_SYS=0;

@@ -195,23 +195,23 @@ char character;
 unsigned long UART1_InUDec(void){
 unsigned long number=0, length=0;
 char character;
-  character = UART1_InChar();
+  character = UART1_NonBlockingInChar();
   while(character != CR){ // accepts until <enter> is typed
 // The next line checks that the input is a digit, 0-9.
 // If the character is not 0-9, it is ignored and not echoed
     if((character>='0') && (character<='9')) {
       number = 10*number+(character-'0');   // this line overflows if above 4294967295
       length++;
-//      UART1_OutChar(character);
+//      UART0_OutChar(character);
     }
 // If the input is a backspace, then the return number is
 // changed and a backspace is outputted to the screen
     else if((character==BS) && length){
       number /= 10;
       length--;
-//      UART1_OutChar(character);
+//      UART0_OutChar(character);
     }
-    character = UART1_InChar();
+    character = UART1_NonBlockingInChar();
   }
   return number;
 }
@@ -228,7 +228,7 @@ void UART0_OutUDec(unsigned long n){
     UART0_OutUDec(n/10);
     n = n%10;
   }
-  UART0_OutChar(n+'0'); /* n is between 0 and 9 */
+  UART0_NonBlockingOutChar(n+'0'); /* n is between 0 and 9 */
 }
 //-----------------------UART1_OutUDec-----------------------
 // Output a 32-bit number in unsigned decimal format
@@ -242,7 +242,7 @@ void UART1_OutUDec(unsigned long n){
     UART1_OutUDec(n/10);
     n = n%10;
   }
-  UART1_OutChar(n+'0'); /* n is between 0 and 9 */
+  UART1_NonBlockingOutChar(n+'0'); /* n is between 0 and 9 */
 }
 
 ////---------------------UART_InUHex----------------------------------------
@@ -330,14 +330,14 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART0_OutChar(BS);
+//        UART0_OutChar(BS);
       }
     }
     else if(length < max){
       *bufPt = character;
       bufPt++;
       length++;
-      UART0_OutChar(character);
+//      UART0_OutChar(character);
     }
     character = UART0_InChar();
   }
@@ -410,13 +410,38 @@ unsigned char UART1_NonBlockingInChar(void)
   }
 }
 
+//------------UART0_NonBlockingOutChar------------
+// Output 8-bit to serial port
+// Input: letter is an 8-bit ASCII character to be transferred
+// Output: none
+void UART0_NonBlockingOutChar(unsigned char data){
+  if((UART0_FR_R&UART_FR_TXFF) == 0){
+    UART0_DR_R = data;
+  }
+  else{
+    UART0_DR_R = 0;
+  }
+}
+//------------UART1_NonBlockingOutChar------------
+// Output 8-bit to serial port
+// Input: letter is an 8-bit ASCII character to be transferred
+// Output: none
+void UART1_NonBlockingOutChar(unsigned char data){
+  if((UART1_FR_R&UART_FR_TXFF) == 0){
+    UART1_DR_R = data;
+  }
+  else{
+    UART1_DR_R = 0;
+  }
+}
+
 //---------------------UART0_OutCRLF---------------------
 // Output a CR,LF to UART to go to a new line
 // Input: none
 // Output: none
 void UART0_OutCRLF(void){
-  UART0_OutChar(CR);
-  UART0_OutChar(LF);
+  UART0_NonBlockingOutChar(CR);
+  UART0_NonBlockingOutChar(LF);
 	
 }
 //---------------------UART1_OutCRLF---------------------
@@ -424,6 +449,6 @@ void UART0_OutCRLF(void){
 // Input: none
 // Output: none
 void UART1_OutCRLF(void){
-  UART1_OutChar(CR);
-  UART1_OutChar(LF);
+  UART1_NonBlockingOutChar(CR);
+  UART1_NonBlockingOutChar(LF);
 }

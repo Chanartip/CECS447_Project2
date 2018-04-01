@@ -91,9 +91,8 @@ void SysTick_Handler(){
 //---------------------main---------------------
 int main(void){
 
-    unsigned long PE3_ADC0_IN_DATA;
     unsigned char UART1_in_char;
-    unsigned int i;
+    unsigned long PE3_ADC0_IN_DATA;
     
     PLL_Init();
     SysTick_Init();
@@ -109,18 +108,15 @@ int main(void){
     while(1){
 
         if(UPDATE_SYS){
+            UPDATE_SYS=0;
             PE3_ADC0_IN_DATA = ADC0_InSeq3(); // Getting Input from Sequencer3
             UART1_OutUDec(PE3_ADC0_IN_DATA);
-            UART1_OutChar(CR);
+            UART1_NonBlockingOutChar(CR);
             UART0_OutUDec(PE3_ADC0_IN_DATA);
             UART0_OutCRLF();
-            UPDATE_SYS=0;
-            i=0;
         }
         else{
-            UART0_OutUDec(i);
-            UART0_OutCRLF();
-            i++;
+            
         }
     } // end superloop
 

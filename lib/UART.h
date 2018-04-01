@@ -123,10 +123,16 @@ void UART1_InString(char *bufPt, unsigned short max);
 unsigned char UART0_NonBlockingInChar(void);
 unsigned char UART1_NonBlockingInChar(void);
 
-//---------------------UART1_OutCRLF---------------------
+//---------------------UART_OutCRLF---------------------
 // Output a CR,LF to UART to go to a new line
 // Input: none
 // Output: none
 void UART0_OutCRLF(void);
 void UART1_OutCRLF(void);
 
+//------------UART_NonBlockingOutChar------------
+// Output 8-bit to serial port
+// Input: letter is an 8-bit ASCII character to be transferred
+// Output: none
+void UART0_NonBlockingOutChar(unsigned char data);
+void UART1_NonBlockingOutChar(unsigned char data);
