@@ -29,13 +29,16 @@ Includes, defines, prototypes, global variables.
 #include "UART.h"
 
 #define WhenIFeelLikeWorking while(1)
+#define _r 0x72
+#define _$ 0x24
 #define LED (*((volatile unsigned long *)0x40025008))
 
 void EnableInterrupts(void);  // Enable interrupts
 long StartCritical (void);    // previous I bit, disable interrupts
 void EndCritical(long sr);    // restore I bit to previous value
 
-
+unsigned long ADC_Val;
+unsigned char UART1_in_char;
 
 /***************************************************************************
 Inits
@@ -114,23 +117,8 @@ void PortE_AIN0_Init(void) { volatile unsigned long delay;
 Interrupts, ISRs
 ***************************************************************************/
 
-// Iterates the variable 'millis'. Every 1000ms 'timer_says_okay' is toggled.
-unsigned long millis = 0;
-unsigned char timer_says_okay = 0;
-void SysTick_Handler(void){
-	millis += 1;
-	if( millis == 1000 ) {
-		millis = 0x00;
-		timer_says_okay ^= 0x01;
-	}
-}
-
-
-
-/***************************************************************************
-Debounce function, ADC0 function.
-***************************************************************************/
-
+// Iterates the variable 'millis'. Every 1000ms 'timer_says_okay' is toggled
+// and debounces the button / updates the 'button_says_okay' flag.
 // Status of button, 1 or 0.
 unsigned char status;
 // Number the timer was on when debounce started. 
@@ -142,10 +130,18 @@ unsigned char last_debounce_state = 0;
 // Flag set when debounce ensures the button 
 // was pressed. It gets flipped every time the
 // button is pressed. 
-unsigned char button_says_okay = 1;
+unsigned char button_says_okay = 0;
 // Length of delay required in ms.
-unsigned long debounce_delay = 25;
-void update_button() {
+unsigned long debounce_delay = 15;
+unsigned long millis = 0;
+unsigned char timer_says_okay = 0;
+unsigned char tell_off = 0x00;
+void SysTick_Handler(void){
+	millis += 1;
+	if( millis == 1000 ) {
+		millis = 0x00;
+		timer_says_okay ^= 0x01;
+	}
 	// Debounce the button and update button_state.
 	if( GPIO_PORTF_DATA_R & 0x01 ) status = 0;
 	else status = 1;
@@ -161,12 +157,20 @@ void update_button() {
 		if( status != button_state ) {
 			button_state = status;
 			if( button_state == 1 ) {
-				button_says_okay ^= 0x01;
+				button_says_okay = 0x00;
+				UART1_OutChar(_$);
+				tell_off = 0x01;
 			}
 		}
 	}
 	last_debounce_state = status;
 }
+
+
+
+/***************************************************************************
+ADC0 function.
+***************************************************************************/
 
 // 12 bit ADC converter to convert value read from
 // potentiometer. 
@@ -184,40 +188,48 @@ unsigned long ADC0_InSeq3(void){
 /***************************************************************************
  Main function / loop.
 ***************************************************************************/
-unsigned long ADC_Val;
-unsigned char UART1_in_char;
+//unsigned long ADC_Val;
+//unsigned char UART1_in_char;
 int main( void ) {
 
-	//unsigned long i;
+	unsigned long i;
 	PLL_Init();            // 50MHz
-	PortB_UART1_Init();    // UART1
 	PortE_AIN0_Init();     // ADC0
+	PortB_UART1_Init();    // UART1
 	PortF_Init();          // PF1 out, PF0 in.
 	SysTick_Init( 50000 ); // 1ms Interrupts
 	
 	WhenIFeelLikeWorking {
 		
 		// Get and transmit ADC data from pot.
-		ADC_Val = 50;/*ADC0_InSeq3(); */
+		ADC_Val = ADC0_InSeq3(); 
 		UART1_OutUDec( ADC_Val );
 		UART1_OutChar( CR );
 		
 		// Part 2.2.a) receive 'r'
 		UART1_in_char = UART1_NonBlockingInChar();
 		
-		// Updates 'button_says_okay'. Flips it
-		// between 1 and 0 with each press.
-		update_button();
-		
+		// When we recieve 'r' update button flag to 1 so the led
+		// can be turned on below. Return message indicating the 
+		// led is turned on.
+		if( ( UART1_in_char == _r ) & ( button_says_okay == 0 ) ) {
+			button_says_okay = 0x01;
+			UART1_OutString( "Red LED is On" );
+		}
 		
 		// Turn LED off and on.
 		if( timer_says_okay & button_says_okay )
 			LED |=  0x02;
 		else
-			LED &= ~0x02;
+			LED &= ~0x02; 
 		
+		if( tell_off == 0x01 ) {
+			tell_off = 0x00;
+			UART1_OutString("Red LED is off");
+		}
 		
-		//while( ( millis % 17 ) != 0 );
+		// Delays main loop to ~60Hz.
+		for( i = 0; i < 833333; i++ );
 		
   }
 }
