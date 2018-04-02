@@ -35,28 +35,17 @@ Updated:  Edit UART_Init to initialize UART_1 instead of UART_0
 //#define SYSCTL_RCGC1_UART0      0x00000001  // UART0 Clock Gating Control
 //#define SYSCTL_RCGC2_GPIOA      0x00000001  // port A Clock Gating Control
 
-//------------UART0_Init------------
-// Initialize the UART for 115,200 baud rate (assuming 50 MHz UART clock),
+//------------UART_Init------------
+// Initialize the UART for 9600 baud rate (assuming 50 MHz UART clock),
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
-/*
-	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
-	     = 16,000,000 / (16 * 9600)
-		 = (104).166667
-		 = 104
-		 
-	FBRD = BRDF*64 + 0.05
-	     = 0.1667 *64 +0.05
-		 = (10).71688
-		 = 10
-*/
 // Input: none
 // Output: none
 void UART0_Init(void){
   SYSCTL_RCGC1_R |= SYSCTL_RCGC1_UART0; // activate UART0
   SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // activate port A
   UART0_CTL_R &= ~UART_CTL_UARTEN;      // disable UART
-  UART0_IBRD_R = 325;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
-  UART0_FBRD_R = 33;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
+  UART0_IBRD_R = 27;                   // IBRD = int(50,000,000 / (16 * 115,200)) = int(27.1267)
+  UART0_FBRD_R = 8;                    // FBRD = int(0.1267 * 64 + 0.5) = 8
                                         // 8 bit word length (no parity bits, one stop bit, FIFOs)
   UART0_LCRH_R = (UART_LCRH_WLEN_8|UART_LCRH_FEN);
   UART0_CTL_R |= UART_CTL_UARTEN;       // enable UART
@@ -67,7 +56,7 @@ void UART0_Init(void){
   GPIO_PORTA_AMSEL_R &= ~0x03;          // disable analog functionality on PA
 }
 // Uart 1, 9600 Baud, 8 Bit, No Parity.
-void UART1_Init(void) {
+void UART1_Init(void) {//325 33
     SYSCTL_RCGC1_R     |=  0x02;       // activate UART1
     SYSCTL_RCGCGPIO_R  |=  0x02;       // activate port B
     while((SYSCTL_PRGPIO_R&0x02) == 0){};    
@@ -171,14 +160,14 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART0_OutChar(BS);
+  //      UART0_OutChar(BS);
       }
     }
     else if(length < max){
       *bufPt = character;
       bufPt++;
       length++;
-      UART0_OutChar(character);
+ //     UART0_OutChar(character);
     }
     character = UART0_InChar();
   }
@@ -193,7 +182,7 @@ char character;
       if(length){
         bufPt--;
         length--;
-        UART0_OutChar(BS);
+//        UART0_OutChar(BS);
       }
     }
     else if(length < max){

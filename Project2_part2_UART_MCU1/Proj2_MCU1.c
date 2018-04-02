@@ -32,6 +32,7 @@
 
 #define _r 0x72
 #define _$ 0x24
+#define _sh 0x23  //'#'
 
 //
 //
@@ -79,16 +80,18 @@ void SysTick_Init(unsigned long period) {
 unsigned char delay60Hz=0;
 void SysTick_Handler(void){
     
-    delay60Hz = (delay60Hz+1)%17; // increment up to 17ms for ~60Hz delay
+    delay60Hz = (delay60Hz+1)%25; // increment up to 17ms for ~60Hz delay ******************  25ms... not sure how many Hz.
 
 }    
 
 int main(void){
     unsigned char UART0_in_char;
+    unsigned char UART1_in_char;
     unsigned int UART1_in_num;
     unsigned long LED_Percentage;
     char bufPt; 
-    unsigned short max=32;
+    unsigned short max=15;
+//    int i=0;
         
     PLL_Init();                         // Initialize 50MHz PLL
     UART0_Init();                       // Initialize UART0
@@ -98,25 +101,65 @@ int main(void){
     
     while(1){
         if(delay60Hz == 0){
-            UART1_in_num = UART1_InUDec();               // Get decimal number from MCU2_UART1
-            LED_Percentage = UART1_in_num*100/4095;      // Calculate Percentage 0~100%
-            PWM_PF2_Duty((LED_Percentage*50000/100)-1);  // Change the duty of LED.
-            
-//            UART0_OutUDec(LED_Percentage);               // Display the percentage (don't need by the prompt but for showing that this is worked so far.)  
-//            UART0_OutChar(CR);
-//            UART0_OutChar(LF);                           // Get a new line each time of display
             
             UART0_in_char = UART0_NonBlockingInChar();
             
             if(UART0_in_char == _r){
-                UART1_OutChar(UART0_in_char);
-                
-                UART1_InString(&bufPt, max);
-                
+                UART1_OutChar(UART0_in_char);         // Received _r from Terminal, and send to MCU2
             }
-            else if(UART0_in_char == _$){
-                UART0_OutChar(UART0_in_char);
-                UART1_InString(&bufPt, max);
+            else {
+                
+                UART1_in_char = UART1_NonBlockingInChar();
+                
+                if(UART1_in_char == _r){
+//                    UART0_OutString("Got the _r");
+//                    UART0_OutChar(CR);
+//                    UART0_OutChar(LF);
+//                    
+                    UART1_InString(&bufPt, max);
+//                    UART0_OutString("just printed");
+                    
+//                    // Loop to clear the buffer
+//                    for(i=bufPt; i < bufPt+max; i++){
+//                        bufPt = 0;      
+//                    }
+//                    
+                    UART0_OutChar(CR);
+                    UART0_OutChar(LF);
+                    
+                }
+                else if(UART1_in_char == _$){
+//                    UART0_OutString("Did not get the _r");
+//                    UART0_OutChar(CR);
+//                    UART0_OutChar(LF);
+//                    
+                    UART1_InString(&bufPt, max);
+//                    UART0_OutString("just printed");
+                    
+//                    // Loop to clear the buffer
+//                    for(i=bufPt; i < bufPt+max; i++){
+//                        bufPt = 0;      
+//                    }
+//                    
+                    UART0_OutChar(CR);
+                    UART0_OutChar(LF);
+                }
+                else if(UART1_in_char == _sh){
+                    UART1_in_num = UART1_InUDec();               // Get decimal number from MCU2_UART1
+                    UART1_in_num &= 0x00000FFF;
+                    LED_Percentage = UART1_in_num*100/4095;      // Calculate Percentage 0~100%
+                    PWM_PF2_Duty((LED_Percentage*50000/100)-1);  // Change the duty of LED.
+                    
+                    
+                    // no necessary part
+//                    UART0_OutChar('*');
+//                    UART0_OutUDec(LED_Percentage);               // Display the percentage (don't need by the prompt but for showing that this is worked so far.)  
+//                    UART0_OutChar(CR);
+//                    UART0_OutChar(LF);                           // Get a new line each time of display
+                }
+                else{
+                    //nothing
+                }
             }
             
             

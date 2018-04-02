@@ -35,6 +35,7 @@ Includes, defines, prototypes, global variables.
 #define WhenIFeelLikeWorking while(1)
 #define _r 0x72
 #define _$ 0x24
+#define _sh 0x23
 #define LED (*((volatile unsigned long *)0x40025008))
 
 
@@ -134,7 +135,7 @@ unsigned char tell_off = 0x00;
 unsigned char delay60Hz=0;
 void SysTick_Handler(void){
     
-    delay60Hz = (delay60Hz+1)%17; // increment up to 17ms for ~60Hz delay
+    delay60Hz = (delay60Hz+1)%25; // increment up to 17ms for ~60Hz delay
     
     millis += 1;
     if( millis == 1000 ) {
@@ -157,14 +158,18 @@ void SysTick_Handler(void){
             button_state = status;
             if( button_state == 1 ) {
                 button_says_okay = 0x00;
-                UART1_OutChar(_$);
                 tell_off = 0x01;
             }
         }
     }
     last_debounce_state = status;
+    
+    // Turn LED off and on.
+    if( timer_says_okay & button_says_okay )
+        LED |=  0x02;
+    else
+        LED &= ~0x02; 
 }
-
 
 
 /***************************************************************************
@@ -187,12 +192,7 @@ int main( void ) {
     WhenIFeelLikeWorking {
         
         if(delay60Hz == 0){
-            // Get and transmit ADC data from pot.
-            ADC_Val = ADC0_InSeq3(); 
-            
-            UART1_OutUDec( ADC_Val );
-            UART1_OutChar( CR );
-            
+
             // Part 2.2.a) receive 'r'
             UART1_in_char = UART1_NonBlockingInChar();
             
@@ -202,24 +202,40 @@ int main( void ) {
             if( ( UART1_in_char == _r ) & ( button_says_okay == 0 ) ) {
                 button_says_okay = 0x01;
                 UART1_OutChar(_r);
-                //UART1_OutString( "Red LED is On" );
-                UART1_OutChar( LF );
+                UART1_OutString( "Red LED is On" );
+//                UART1_OutChar( LF );
                 UART1_OutChar( CR );
+                
+//                UART0_OutChar(_r);
+//                UART0_OutString( "Red LED is On" );
+//                UART0_OutChar( LF );
+//                UART0_OutChar( CR );
             }
-            
-            // Turn LED off and on.
-            if( timer_says_okay & button_says_okay )
-                LED |=  0x02;
-            else
-                LED &= ~0x02; 
-            
-            if( tell_off == 0x01 ) {
+            else if( tell_off == 0x01 ) {
                 tell_off = 0x00;
+                UART1_OutChar(_$);
                 UART1_OutString("Red LED is off");
-                UART1_OutChar( LF );
+//                UART1_OutChar( LF );
                 UART1_OutChar( CR );
-           }
-
+                
+//                UART0_OutChar(_$);
+//                UART0_OutString("Red LED is off");
+//                UART0_OutChar( LF );
+//                UART0_OutChar( CR );
+            }
+            else{
+                UART1_OutChar(_sh);
+                
+                // Get and transmit ADC data from pot.
+                ADC_Val = ADC0_InSeq3(); 
+                UART1_OutUDec( ADC_Val );
+                UART1_OutChar( CR );
+                
+//                UART0_OutUDec( ADC_Val );
+//                UART0_OutChar( CR );
+//                UART0_OutChar( LF );
+                
+            }
         }
        
        
