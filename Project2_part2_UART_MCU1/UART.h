@@ -10,7 +10,6 @@
    "Embedded Systems: Real Time Interfacing to Arm Cortex M Microcontrollers",
    ISBN: 978-1463590154, Jonathan Valvano, copyright (c) 2013
    Program 4.12, Section 4.9.4, Figures 4.26 and 4.40
-
  Copyright 2013 by Jonathan W. Valvano, valvano@mail.utexas.edu
     You may use, edit, run or distribute this file
     as long as the above copyright notice remains
@@ -81,25 +80,6 @@ unsigned long UART1_InUDec(void);
 // Variable format 1-10 digits with no space before or after
 void UART0_OutUDec(unsigned long n);
 void UART1_OutUDec(unsigned long n);
-
-//---------------------UART_InUHex----------------------------------------
-// Accepts ASCII input in unsigned hexadecimal (base 16) format
-// Input: none
-// Output: 32-bit unsigned number
-// No '$' or '0x' need be entered, just the 1 to 8 hex digits
-// It will convert lower case a-f to uppercase A-F
-//     and converts to a 16 bit unsigned number
-//     value range is 0 to FFFFFFFF
-// If you enter a number above FFFFFFFF, it will return an incorrect value
-// Backspace will remove last digit typed
-//unsigned long UART_InUHex(void);
-
-//--------------------------UART_OutUHex----------------------------
-// Output a 32-bit number in unsigned hexadecimal format
-// Input: 32-bit number to be transferred
-// Output: none
-// Variable format 1 to 8 digits with no space before or after
-//void UART_OutUHex(unsigned long number);
 
 //------------UART_InString------------
 // Accepts ASCII characters from the serial port
