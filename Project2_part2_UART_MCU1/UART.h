@@ -81,25 +81,6 @@ unsigned long UART1_InUDec(void);
 void UART0_OutUDec(unsigned long n);
 void UART1_OutUDec(unsigned long n);
 
-//---------------------UART_InUHex----------------------------------------
-// Accepts ASCII input in unsigned hexadecimal (base 16) format
-// Input: none
-// Output: 32-bit unsigned number
-// No '$' or '0x' need be entered, just the 1 to 8 hex digits
-// It will convert lower case a-f to uppercase A-F
-//     and converts to a 16 bit unsigned number
-//     value range is 0 to FFFFFFFF
-// If you enter a number above FFFFFFFF, it will return an incorrect value
-// Backspace will remove last digit typed
-//unsigned long UART_InUHex(void);
-
-//--------------------------UART_OutUHex----------------------------
-// Output a 32-bit number in unsigned hexadecimal format
-// Input: 32-bit number to be transferred
-// Output: none
-// Variable format 1 to 8 digits with no space before or after
-//void UART_OutUHex(unsigned long number);
-
 //------------UART_InString------------
 // Accepts ASCII characters from the serial port
 //    and adds them to a string until <enter> is typed

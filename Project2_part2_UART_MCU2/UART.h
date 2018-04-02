@@ -38,24 +38,28 @@
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
 // Input: none
 // Output: none
-//void UART_Init(void);
+void UART0_Init(void);
+void UART1_Init(void);
 
 //------------UART_InChar------------
 // Wait for new serial port input
 // Input: none
 // Output: ASCII code for key typed
-//unsigned char UART_InChar(void);
+unsigned char UART0_InChar(void);
+unsigned char UART1_InChar(void);
 
 //------------UART_OutChar------------
 // Output 8-bit to serial port
 // Input: letter is an 8-bit ASCII character to be transferred
 // Output: none
+void UART0_OutChar(unsigned char data);
 void UART1_OutChar(unsigned char data);
 
 //------------UART_OutString------------
 // Output String (NULL termination)
 // Input: pointer to a NULL-terminated string to be transferred
 // Output: none
+void UART0_OutString(char *pt);
 void UART1_OutString(char *pt);
 
 //------------UART_InUDec------------
@@ -66,33 +70,16 @@ void UART1_OutString(char *pt);
 // Output: 32-bit unsigned number
 // If you enter a number above 4294967295, it will return an incorrect value
 // Backspace will remove last digit typed
-//unsigned long UART_InUDec(void);
+unsigned long UART0_InUDec(void);
+unsigned long UART1_InUDec(void);
 
 //-----------------------UART_OutUDec-----------------------
 // Output a 32-bit number in unsigned decimal format
 // Input: 32-bit number to be transferred
 // Output: none
 // Variable format 1-10 digits with no space before or after
+void UART0_OutUDec(unsigned long n);
 void UART1_OutUDec(unsigned long n);
-
-//---------------------UART_InUHex----------------------------------------
-// Accepts ASCII input in unsigned hexadecimal (base 16) format
-// Input: none
-// Output: 32-bit unsigned number
-// No '$' or '0x' need be entered, just the 1 to 8 hex digits
-// It will convert lower case a-f to uppercase A-F
-//     and converts to a 16 bit unsigned number
-//     value range is 0 to FFFFFFFF
-// If you enter a number above FFFFFFFF, it will return an incorrect value
-// Backspace will remove last digit typed
-//unsigned long UART_InUHex(void);
-
-//--------------------------UART_OutUHex----------------------------
-// Output a 32-bit number in unsigned hexadecimal format
-// Input: 32-bit number to be transferred
-// Output: none
-// Variable format 1 to 8 digits with no space before or after
-//void UART_OutUHex(unsigned long number);
 
 //------------UART_InString------------
 // Accepts ASCII characters from the serial port
@@ -106,10 +93,12 @@ void UART1_OutUDec(unsigned long n);
 // Input: pointer to empty buffer, size of buffer
 // Output: Null terminated string
 // -- Modified by Agustinus Darmawan + Mingjie Qiu --
-//void UART_InString(char *bufPt, unsigned short max);
+void UART0_InString(char *bufPt, unsigned short max);
+void UART1_InString(char *bufPt, unsigned short max);
 
 //------------UART_NonBlockingInChar------------
 // Get serial port input and return immediately
 // Input: none
 // Output: ASCII code for key typed or 0 if no character
+unsigned char UART0_NonBlockingInChar(void);
 unsigned char UART1_NonBlockingInChar(void);
