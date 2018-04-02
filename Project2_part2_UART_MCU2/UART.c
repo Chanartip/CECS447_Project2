@@ -38,19 +38,6 @@ Updated:  Edit UART_Init to initialize UART_1 instead of UART_0
 //------------UART0_Init------------
 // Initialize the UART for 115,200 baud rate (assuming 50 MHz UART clock),
 // 8 bit word length, no parity bits, one stop bit, FIFOs enabled
-/*
-	IBRD = BusFreq(hz)/ (ClkDiv * baud_rate)
-	     = 16,000,000 / (16 * 9600)
-		 = (104).166667
-		 = 104
-		 
-	FBRD = BRDF*64 + 0.05
-	     = 0.1667 *64 +0.05
-		 = (10).71688
-		 = 10
-*/
-// Input: none
-// Output: none
 void UART0_Init(void){
   SYSCTL_RCGC1_R |= SYSCTL_RCGC1_UART0; // activate UART0
   SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOA; // activate port A

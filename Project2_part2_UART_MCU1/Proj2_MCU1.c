@@ -77,21 +77,18 @@ void SysTick_Init(unsigned long period) {
     NVIC_ST_CTRL_R = NVIC_ST_CTRL_ENABLE+NVIC_ST_CTRL_CLK_SRC+NVIC_ST_CTRL_INTEN;
 }
 
-unsigned char delay60Hz=0;
+unsigned char delay40Hz=0;
 void SysTick_Handler(void){
-    
-    delay60Hz = (delay60Hz+1)%25; // increment up to 17ms for ~60Hz delay ******************  25ms... not sure how many Hz.
-
+    delay40Hz = (delay40Hz+1)%25; // increment up to 25ms for 40Hz delay 
 }    
 
 int main(void){
     unsigned char UART0_in_char;
     unsigned char UART1_in_char;
-    unsigned int UART1_in_num;
+    unsigned int  UART1_in_num;
     unsigned long LED_Percentage;
     char bufPt; 
     unsigned short max=15;
-//    int i=0;
         
     PLL_Init();                         // Initialize 50MHz PLL
     UART0_Init();                       // Initialize UART0
@@ -100,62 +97,50 @@ int main(void){
     SysTick_Init(50000);                // 1ms systick
     
     while(1){
-        if(delay60Hz == 0){
+        if(delay40Hz == 0){             // Update the system at 40Hz
             
+            // Collect and check a character input from Serial Terminal
+            //  if the input is 'r', then send 'r' to MCU2.
+            //  Otherwise, checking input from MCU2 instead.
             UART0_in_char = UART0_NonBlockingInChar();
-            
             if(UART0_in_char == _r){
                 UART1_OutChar(UART0_in_char);         // Received _r from Terminal, and send to MCU2
             }
             else {
                 
+                // Collect a character and decide which case of
+                //  the upcoming input will be.
+                //  if the input is 'r', upcoming input will be a string "RED LED is ON"
+                //  else if the input is '$', upcoming input will be a string "RED LED is OFF"
+                //  else if the input is '#'(_sh), the upcoming input will be an ADC value.
                 UART1_in_char = UART1_NonBlockingInChar();
-                
                 if(UART1_in_char == _r){
-//                    UART0_OutString("Got the _r");
-//                    UART0_OutChar(CR);
-//                    UART0_OutChar(LF);
-//                    
+                    // Received 'r' and the string "RED LED is ON"
+                    //  while displaying a character at the time.
                     UART1_InString(&bufPt, max);
-//                    UART0_OutString("just printed");
-                    
-//                    // Loop to clear the buffer
-//                    for(i=bufPt; i < bufPt+max; i++){
-//                        bufPt = 0;      
-//                    }
-//                    
                     UART0_OutChar(CR);
                     UART0_OutChar(LF);
                     
                 }
                 else if(UART1_in_char == _$){
-//                    UART0_OutString("Did not get the _r");
-//                    UART0_OutChar(CR);
-//                    UART0_OutChar(LF);
-//                    
+                    // Received '$' and the string "RED LED is OFF"
+                    //  while displaying a character at the time.
                     UART1_InString(&bufPt, max);
-//                    UART0_OutString("just printed");
-                    
-//                    // Loop to clear the buffer
-//                    for(i=bufPt; i < bufPt+max; i++){
-//                        bufPt = 0;      
-//                    }
-//                    
                     UART0_OutChar(CR);
                     UART0_OutChar(LF);
                 }
                 else if(UART1_in_char == _sh){
+                    // Received '#' and an ADC value. 
+                    //  Then calculate PWM percentage before assigning 
+                    //  a new PWM duty cycle.
                     UART1_in_num = UART1_InUDec();               // Get decimal number from MCU2_UART1
-                    UART1_in_num &= 0x00000FFF;
                     LED_Percentage = UART1_in_num*100/4095;      // Calculate Percentage 0~100%
                     PWM_PF2_Duty((LED_Percentage*50000/100)-1);  // Change the duty of LED.
                     
-                    
-                    // no necessary part
-//                    UART0_OutChar('*');
-//                    UART0_OutUDec(LED_Percentage);               // Display the percentage (don't need by the prompt but for showing that this is worked so far.)  
-//                    UART0_OutChar(CR);
-//                    UART0_OutChar(LF);                           // Get a new line each time of display
+                    // Display the ADC Value in Terminal
+                    UART0_OutUDec(UART1_in_num);              
+                    UART0_OutChar(CR);
+                    UART0_OutChar(LF);                           // Get a new line each time of display
                 }
                 else{
                     //nothing

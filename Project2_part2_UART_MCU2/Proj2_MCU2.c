@@ -132,10 +132,10 @@ unsigned long millis = 0;
 unsigned char timer_says_okay = 0;
 unsigned char tell_off = 0x00;
 
-unsigned char delay60Hz=0;
+unsigned char delay40Hz=0;
 void SysTick_Handler(void){
     
-    delay60Hz = (delay60Hz+1)%25; // increment up to 17ms for ~60Hz delay
+    delay40Hz = (delay40Hz+1)%25; // increment up to 25ms for 40Hz delay
     
     millis += 1;
     if( millis == 1000 ) {
@@ -184,45 +184,44 @@ int main( void ) {
     
     PLL_Init();             // 50MHz
     PortE_AIN0_Init();      // ADC0
-    UART0_Init();
     UART1_Init();           // UART1
     PortF_Init();           // PF1 out, PF0 in.
     SysTick_Init( 50000 );  // 1ms Interrupts
     
     WhenIFeelLikeWorking {
         
-        if(delay60Hz == 0){
+        if(delay40Hz == 0){
 
-            // Part 2.2.a) receive 'r'
+            // Check an input from MCU1 if the character input is 'r'.
+            //  if the input is 'r' and the LED is not blinking yet,
+            //  then set the LED blinking flag, so the LED will be blinking
+            //  before sending confirmation token('r') and then send a
+            //  confirmation message "RED LED is On".
             UART1_in_char = UART1_NonBlockingInChar();
-            
-            // When we recieve 'r' update button flag to 1 so the led
-            // can be turned on below. Return message indicating the 
-            // led is turned on.
             if( ( UART1_in_char == _r ) & ( button_says_okay == 0 ) ) {
                 button_says_okay = 0x01;
                 UART1_OutChar(_r);
                 UART1_OutString( "Red LED is On" );
-//                UART1_OutChar( LF );
                 UART1_OutChar( CR );
                 
-//                UART0_OutChar(_r);
-//                UART0_OutString( "Red LED is On" );
-//                UART0_OutChar( LF );
-//                UART0_OutChar( CR );
             }
+            // When SW0 on MCU2 is pressed and being debounced,
+            //  tell_off would be set HIGH. Once this condition is true,
+            //  MCU2 sends a token('$') before sending a confirmation
+            //  message "RED LED is off".
             else if( tell_off == 0x01 ) {
                 tell_off = 0x00;
                 UART1_OutChar(_$);
                 UART1_OutString("Red LED is off");
-//                UART1_OutChar( LF );
                 UART1_OutChar( CR );
                 
-//                UART0_OutChar(_$);
-//                UART0_OutString("Red LED is off");
-//                UART0_OutChar( LF );
-//                UART0_OutChar( CR );
             }
+            // If there is no input from MCU1 and the SW0 is not
+            //  being pressed, then MCU2 will send ADC value 
+            //  to MCU1.
+            //  First, sends a token('#') to MCU1 stating that
+            //  the next output will be an ADC Value, then 
+            //  get ADC value before sending the ADC value to MCU1
             else{
                 UART1_OutChar(_sh);
                 
@@ -230,11 +229,7 @@ int main( void ) {
                 ADC_Val = ADC0_InSeq3(); 
                 UART1_OutUDec( ADC_Val );
                 UART1_OutChar( CR );
-                
-//                UART0_OutUDec( ADC_Val );
-//                UART0_OutChar( CR );
-//                UART0_OutChar( LF );
-                
+                                
             }
         }
        
